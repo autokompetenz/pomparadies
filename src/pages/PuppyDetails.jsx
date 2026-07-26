@@ -322,6 +322,28 @@ export default function PuppyDetails() {
             </div>
           </div>
         </motion.div>
+
+        {/* Refund policy */}
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          style={{ marginTop: isMobile ? 32 : 48 }}>
+          <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: isMobile ? 24 : 32, boxShadow: C.shadow, display: 'flex', alignItems: 'flex-start', gap: 18 }}>
+            <div style={{ width: 52, height: 52, borderRadius: 12, background: 'linear-gradient(135deg,rgba(34,197,94,0.15),rgba(34,197,94,0.05))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, flexShrink: 0 }}>
+              💰
+            </div>
+            <div>
+              <h3 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: isMobile ? 18 : 22, color: C.text, marginBottom: 8 }}>
+                {l==='fr'?'Garantie de remboursement':l==='nl'?'Terugbetalingsgarantie':l==='en'?'Refund guarantee':'Garantie de remboursement'}
+              </h3>
+              <p style={{ fontSize: 15, color: C.text2, lineHeight: 1.7, margin: 0 }}>
+                {l==='fr'
+                  ? 'En cas de désistement, le montant intégralement payé vous sera remboursé dans un délai de 7 jours ouvrables.'
+                  : l==='nl'
+                  ? 'Bij annulering wordt het volledige bedrag binnen 7 werkdagen aan u terugbetaald.'
+                  : 'In case of cancellation, the full amount paid will be refunded to you within 7 business days.'}
+              </p>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
