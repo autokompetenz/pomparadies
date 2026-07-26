@@ -106,7 +106,7 @@ export default function Navbar() {
             ANIMAL CONCEPT SRL
           </div>
           <div style={{ fontSize: 9, letterSpacing: '0.4em', color: 'var(--primary)', textTransform: 'uppercase', marginTop: 2 }}>
-            Oupeye · Belgique
+            ANIMAL CONCEPT
           </div>
         </Link>
 
