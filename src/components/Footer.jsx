@@ -87,17 +87,6 @@ export default function Footer() {
         <div>
           <div style={colTitle}>{t('contact_label', lang)}</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 10 : 8, fontSize: 13, color: text }}>
-            <a href="mailto:contact@animalconceptsrl.com" style={{
-              fontSize: isMobile ? 14 : 13, fontWeight: 700, color: '#fff',
-              background: '#C9762E', textDecoration: 'none', padding: '10px 20px',
-              borderRadius: 8, textAlign: 'center', display: 'inline-block',
-              fontFamily: "'Outfit',sans-serif", letterSpacing: '0.04em',
-              transition: 'background 0.2s',
-            }}
-              onMouseOver={e => e.currentTarget.style.background = '#B8681E'}
-              onMouseOut={e => e.currentTarget.style.background = '#C9762E'}>
-              ✉ {t('contact_label', lang)}
-            </a>
             <Link to="/legal" style={linkStyle}>{t('cookies_label', lang)}</Link>
           </div>
         </div>
