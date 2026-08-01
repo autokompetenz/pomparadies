@@ -6,7 +6,7 @@ const { createClient } = require('@supabase/supabase-js');
 const rateLimit = require('express-rate-limit');
 const { prisma } = require('../lib/prisma.js');
 const { sendReservationConfirmation, sendAdminNotification, sendStatusNotification, sendReplyToCustomer } = require('../lib/mailer.js');
-const { generateReservationNumber } = require('../lib/helpers.js');
+const { generateReservationNumber, generateUniquePuppyIds } = require('../lib/helpers.js');
 
 const app = express();
 
@@ -255,6 +255,12 @@ app.post('/api/admin/puppies', authenticateAdmin, upload.any(), async (req, res)
       Object.assign(puppyData, await uploadFiles(req.files, 'puppies'));
     }
 
+    if (!puppyData.microchipNumber || !puppyData.pedigreeDocUrl) {
+      const generated = await generateUniquePuppyIds(prisma, puppyData.breed, puppyData.birthDate);
+      if (!puppyData.microchipNumber && generated.microchipNumber) puppyData.microchipNumber = generated.microchipNumber;
+      if (!puppyData.pedigreeDocUrl && generated.pedigreeDocUrl) puppyData.pedigreeDocUrl = generated.pedigreeDocUrl;
+    }
+
     const puppy = await prisma.puppy.create({ data: puppyData });
     res.status(201).json({ puppy });
   } catch (error) {
@@ -312,6 +318,12 @@ app.put('/api/admin/puppies/:id', authenticateAdmin, upload.any(), async (req, r
         const fieldName = idx === 0 ? 'imageUrl' : `imageUrl${idx + 1}`;
         if (!puppyData[fieldName]) puppyData[fieldName] = url;
       });
+    }
+
+    if (!puppyData.microchipNumber || !puppyData.pedigreeDocUrl) {
+      const generated = await generateUniquePuppyIds(prisma, puppyData.breed, puppyData.birthDate, puppyId);
+      if (!puppyData.microchipNumber && generated.microchipNumber) puppyData.microchipNumber = generated.microchipNumber;
+      if (!puppyData.pedigreeDocUrl && generated.pedigreeDocUrl) puppyData.pedigreeDocUrl = generated.pedigreeDocUrl;
     }
 
     const puppy = await prisma.puppy.update({ where: { id: puppyId }, data: puppyData });

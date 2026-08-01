@@ -292,7 +292,7 @@ export default function PuppyDetails() {
           <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: isMobile ? 24 : 32, marginBottom: 24, boxShadow: C.shadow }}>
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: 16, marginBottom: 24 }}>
               {[
-                { icon: '📜', title: t('pedigree', l), value: puppy.pedigreeDocUrl || l==='fr'?'Inclus LOSH':l==='nl'?'Inclusief LOSH':l==='en'?'LOSH included':'Inclus LOSH' },
+                { icon: '📜', title: t('pedigree', l), value: puppy.pedigreeDocUrl ? String(puppy.pedigreeDocUrl).split('/').pop() : (l==='fr'?'Inclus LOSH':l==='nl'?'Inclusief LOSH':l==='en'?'LOSH included':'Inclus LOSH') },
                 { icon: '📋', title: t('vaccination', l), desc: puppy.vaccinationStatus || l==='fr'?'Vaccins à jour (CHPPiLR)':l==='nl'?'Vaccinaties up-to-date (CHPPiLR)':l==='en'?'Up-to-date vaccines (CHPPiLR)':'Vaccins à jour (CHPPiLR)' },
                 { icon: '🐶', title: t('deworming', l), desc: puppy.dewormingStatus || l==='fr'?'Vermifuge régulier':l==='nl'?'Regelmatige ontworming':l==='en'?'Regular deworming':'Vermifuge régulier' },
                 { icon: '💜', title: t('microchip', l), value: puppy.microchipNumber || l==='fr'?'Puce électronique incluse':l==='nl'?'Microchip inbegrepen':l==='en'?'Microchip included':'Puce électronique incluse' },

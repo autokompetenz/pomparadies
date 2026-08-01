@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { adminAPI } from '../../services/api';
 import { useToastStore } from '../../store';
 import { useBreakpoint } from '../../hooks';
-import { BREEDS } from '../../utils/helpers';
+import { BREEDS, nextPuppyIdentifiers } from '../../utils/helpers';
 
 const EMPTY = {
   name:'', breed:'Golden Retriever', sex:'Male', birthDate:'', price:'',
@@ -52,15 +52,31 @@ export default function AdminPuppyForm() {
   const [imageFiles, setImageFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
+  const [puppies, setPuppies] = useState([]);
+  const [puppiesLoaded, setPuppiesLoaded] = useState(false);
+  const lastGenRef = useRef({ microchip: '', pedigree: '' });
 
   useEffect(() => () => { previews.forEach(p => { if (!p.isExisting && p.url?.startsWith('blob:')) URL.revokeObjectURL(p.url); }); }, [previews]);
+
+  useEffect(() => {
+    adminAPI.puppies()
+      .then(r => setPuppies(r.data?.puppies || []))
+      .catch(() => setPuppies([]))
+      .finally(() => setPuppiesLoaded(true));
+  }, []);
 
   useEffect(() => {
     if (isEdit) {
       adminAPI.getPuppyById(id).then(r => {
         const c = r.data.puppy;
         const birthDate = c.birthDate ? new Date(c.birthDate).toISOString().split('T')[0] : '';
-        setForm({ ...EMPTY, ...c, price: String(c.price || ''), birthDate });
+        setForm({
+          ...EMPTY, ...c,
+          price: String(c.price || ''),
+          birthDate,
+          microchipNumber: c.microchipNumber || '',
+          pedigreeDocUrl: c.pedigreeDocUrl || '',
+        });
         const existing = [];
         ['imageUrl', 'imageUrl2', 'imageUrl3', 'imageUrl4', 'imageUrl5'].forEach((field, idx) => {
           if (c[field]) existing.push({ url: c[field], id: `existing-${idx + 1}`, isExisting: true, field });
@@ -69,6 +85,24 @@ export default function AdminPuppyForm() {
       });
     }
   }, [id, isEdit]);
+
+  // Auto-génération puce + pedigree dès que la race et la date de naissance sont choisies
+  useEffect(() => {
+    if (!puppiesLoaded) return;
+    const { breed, birthDate } = form;
+    if (!breed || !birthDate) return;
+    const next = nextPuppyIdentifiers(puppies, breed, birthDate, isEdit ? Number(id) : undefined);
+    if (!next) return;
+    setForm(prev => {
+      const shouldMicro = prev.microchipNumber === '' || prev.microchipNumber === lastGenRef.current.microchip;
+      const shouldPed = prev.pedigreeDocUrl === '' || prev.pedigreeDocUrl === lastGenRef.current.pedigree;
+      const updated = { ...prev };
+      if (shouldMicro && next.microchipNumber) updated.microchipNumber = next.microchipNumber;
+      if (shouldPed && next.pedigreeDocUrl) updated.pedigreeDocUrl = next.pedigreeDocUrl;
+      lastGenRef.current = { microchip: updated.microchipNumber, pedigree: updated.pedigreeDocUrl };
+      return updated;
+    });
+  }, [form.breed, form.birthDate, puppies, puppiesLoaded, isEdit, id]);
 
   const set = (field) => (e) => {
     const { type, value, checked } = e.target;
@@ -98,6 +132,22 @@ export default function AdminPuppyForm() {
       setExistingImages(prev => prev.filter(img => img.id !== imageId));
       if (existingToRemove.field) setForm(prev => ({ ...prev, [existingToRemove.field]: '' }));
     }
+  };
+
+  const handleGenerateIds = () => {
+    const { breed, birthDate } = form;
+    if (!breed || !birthDate) {
+      addToast("Choisissez d'abord une race et une date de naissance", 'error');
+      return;
+    }
+    const next = nextPuppyIdentifiers(puppies, breed, birthDate, isEdit ? Number(id) : undefined);
+    if (!next) {
+      addToast('Génération impossible', 'error');
+      return;
+    }
+    setForm(prev => ({ ...prev, microchipNumber: next.microchipNumber, pedigreeDocUrl: next.pedigreeDocUrl }));
+    lastGenRef.current = { microchip: next.microchipNumber, pedigree: next.pedigreeDocUrl };
+    addToast('Puce électronique & pedigree générés', 'success');
   };
 
   const handleSubmit = async (e) => {
@@ -144,11 +194,14 @@ export default function AdminPuppyForm() {
 
         <Section title="Santé">
           <div className={isMobile ? 'admin-grid-2' : ''} style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16 }}>
-            <Field label="Pedigree" field="pedigreeDocUrl" placeholder="LOSH XXXX" value={form.pedigreeDocUrl} onChange={set("pedigreeDocUrl")} />
-            <Field label="Puce électronique" field="microchipNumber" placeholder="528140000000000" value={form.microchipNumber} onChange={set("microchipNumber")} />
+            <Field label="Pedigree" field="pedigreeDocUrl" placeholder="LOSH-LAB-2026-0412" value={form.pedigreeDocUrl} onChange={set("pedigreeDocUrl")} />
+            <Field label="Puce électronique" field="microchipNumber" placeholder="985 1410 0245 101" value={form.microchipNumber} onChange={set("microchipNumber")} />
             <Field label="Statut vaccination" field="vaccinationStatus" placeholder="À jour" value={form.vaccinationStatus} onChange={set("vaccinationStatus")} />
             <Field label="Statut vermifuge" field="dewormingStatus" placeholder="À jour" value={form.dewormingStatus} onChange={set("dewormingStatus")} />
           </div>
+          <button type="button" onClick={handleGenerateIds} className="btn-ghost" style={{ marginTop:16, padding:'12px 20px', fontSize:14, borderRadius:10 }}>
+            ✨ Générer puce &amp; pedigree (auto)
+          </button>
         </Section>
 
         <Section title="Images">
