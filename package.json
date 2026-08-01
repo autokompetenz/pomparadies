@@ -7,7 +7,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "seed": "node prisma/seed.js",
-    "seed:teckel": "node prisma/seed-teckel.cjs"
+    "seed:teckel": "node prisma/seed-teckel.cjs",
+    "seed:braque": "node prisma/seed-braque.cjs"
   },
   "dependencies": {
     "@prisma/client": "5.22.0",

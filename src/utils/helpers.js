@@ -4,13 +4,14 @@ export const formatEuro = (amount) => {
 };
 
 export const BREEDS = [
-  'Jack Russell Terrier', 'Teckel', 'Labrador Retriever', 'Chihuahua',
+  'Jack Russell Terrier', 'Braque Allemand', 'Teckel', 'Labrador Retriever', 'Chihuahua',
   'Yorkshire Terrier', 'Berger Allemand', 'Berger Malinois',
   'Bichon Maltais', 'Shih Tzu', 'Golden Retriever', 'Canis Vulgaris',
 ];
 
 export const BREED_ID_CODES = {
   'Jack Russell Terrier': { micro: 234, code: 'JR',  prefix: 'LOSH' },
+  'Braque Allemand':      { micro: 235, code: 'BRA', prefix: 'LOSH' },
   'Teckel':               { micro: 240, code: 'TEC', prefix: 'LOSH' },
   'Labrador Retriever':   { micro: 245, code: 'LAB', prefix: 'LOSH' },
   'Chihuahua':            { micro: 250, code: 'CHI', prefix: 'LOSH' },
