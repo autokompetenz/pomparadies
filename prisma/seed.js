@@ -60,6 +60,19 @@ async function main() {
     { name:'Oscar',  birthDate:d(6,6),  sex:'Male',   father:'Jack',   mother:'Lola', pedigree:'LOSH-JR-2026-0358', microchip:'985 1410 0234 593', desc:'Petit aventurier, le premier à explorer un nouvel objet dans son enclos.' },
   ];
 
+  const teckel = [
+    { name:'Bruno',   birthDate:d(5,6),  sex:'Male',   father:'Kaiser', mother:'Gretel', pedigree:'LOSH-TEC-2026-0311', microchip:'985 1410 0240 101', desc:'Petit débrouillard au caractère bien trempé, déjà très curieux de tout.' },
+    { name:'Frida',   birthDate:d(5,6),  sex:'Female', father:'Kaiser', mother:'Gretel', pedigree:'LOSH-TEC-2026-0312', microchip:'985 1410 0240 102', desc:'Douce et affectueuse, elle adore se blottir contre ses frères et sœurs.' },
+    { name:'Oscar',   birthDate:d(5,6),  sex:'Male',   father:'Kaiser', mother:'Gretel', pedigree:'LOSH-TEC-2026-0313', microchip:'985 1410 0240 103', desc:'Vif et joueur, il explore déjà chaque recoin de son enclos avec entrain.' },
+    { name:'Lotti',   birthDate:d(5,6),  sex:'Female', father:'Kaiser', mother:'Gretel', pedigree:'LOSH-TEC-2026-0314', microchip:'985 1410 0240 104', desc:'Calme et observatrice, elle garde un œil attentif sur tout ce qui l\'entoure.' },
+    { name:'Max',     birthDate:d(5,6),  sex:'Male',   father:'Kaiser', mother:'Gretel', pedigree:'LOSH-TEC-2026-0315', microchip:'985 1410 0240 105', desc:'Énergique et malicieux, toujours prêt à faire une petite bêtise.' },
+    { name:'Gretel',  birthDate:d(18,4), sex:'Female', father:'Otto',   mother:'Berta',  pedigree:'LOSH-TEC-2026-0280', microchip:'985 1410 0240 780', desc:'Sociable et câline, elle réclame des caresses dès qu\'on s\'approche.' },
+    { name:'Hans',    birthDate:d(18,4), sex:'Male',   father:'Otto',   mother:'Berta',  pedigree:'LOSH-TEC-2026-0281', microchip:'985 1410 0240 781', desc:'Robuste et confiant, il s\'approche facilement des nouvelles têtes.' },
+    { name:'Emmi',    birthDate:d(18,4), sex:'Female', father:'Otto',   mother:'Berta',  pedigree:'LOSH-TEC-2026-0282', microchip:'985 1410 0240 782', desc:'Délicate et attachante, elle préfère les longues siestes au soleil.' },
+    { name:'Kurt',    birthDate:d(18,4), sex:'Male',   father:'Otto',   mother:'Berta',  pedigree:'LOSH-TEC-2026-0283', microchip:'985 1410 0240 783', desc:'Plein d\'assurance, il apprend déjà très vite les règles de base.' },
+    { name:'Heidi',   birthDate:d(18,4), sex:'Female', father:'Otto',   mother:'Berta',  pedigree:'LOSH-TEC-2026-0284', microchip:'985 1410 0240 784', desc:'Pétillante et joueuse, elle adore jouer avec ses frères et sœurs.' },
+  ];
+
   const berger = [
     { name:'Apollo',   birthDate:d(5,6),  sex:'Male',   father:'Rex',   mother:'Luna', pedigree:'LOSH-BA-2026-0701', microchip:'985 1410 0270 401', desc:'Déjà très éveillé, il observe attentivement tout ce qui se passe autour de lui.' },
     { name:'Athena',   birthDate:d(9,6),  sex:'Female', father:'Rex',   mother:'Luna', pedigree:'LOSH-BA-2026-0702', microchip:'985 1410 0270 402', desc:'Vive et déterminée, elle montre déjà un caractère affirmé.' },
@@ -117,6 +130,7 @@ async function main() {
     ...chihuahua.map(p => ({ ...p, breed:'Chihuahua',           price:900,  color:'Fauve',             vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
     ...yorkshire.map(p => ({ ...p, breed:'Yorkshire Terrier',   price:1100, color:'Gris acier et feu',  vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
     ...jackrussell.map(p => ({ ...p, breed:'Jack Russell Terrier', price:750, color:'Blanc et feu',     vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
+    ...teckel.map(p =>     ({ ...p, breed:'Teckel',                  price:900, color:'Noir et feu',      vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
     ...berger.map(p =>     ({ ...p, breed:'Berger Allemand',       price:1180, color:'Noir et feu',     vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
     ...bichon.map(p =>     ({ ...p, breed:'Bichon Maltais',        price:1000, color:'Blanc pur',       vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
     ...golden.map(p =>     ({ ...p, breed:'Golden Retriever',      price:1150, color:'Blond doré',      vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
