@@ -4,16 +4,26 @@ export const formatEuro = (amount) => {
 };
 
 export const BREEDS = [
-  'Jack Russell Terrier', 'Braque Allemand', 'Teckel', 'Labrador Retriever', 'Chihuahua',
-  'Yorkshire Terrier', 'Berger Allemand', 'Berger Malinois',
+  'Jack Russell Terrier', 'Braque Allemand', 'Dogue Allemand', 'Dobermann', 'Caniche',
+  'Drahthaar', 'Teckel', 'Boxer', 'Spitz Allemand', 'Bouledogue Français', 'Labrador Retriever',
+  'Leonberg', 'Kangal', 'Chihuahua', 'Yorkshire Terrier', 'Berger Allemand', 'Berger Malinois',
   'Bichon Maltais', 'Shih Tzu', 'Golden Retriever', 'Canis Vulgaris',
 ];
 
 export const BREED_ID_CODES = {
   'Jack Russell Terrier': { micro: 234, code: 'JR',  prefix: 'LOSH' },
   'Braque Allemand':      { micro: 235, code: 'BRA', prefix: 'LOSH' },
+  'Dogue Allemand':       { micro: 236, code: 'DOG', prefix: 'LOSH' },
+  'Dobermann':            { micro: 237, code: 'DOB', prefix: 'LOSH' },
+  'Caniche':              { micro: 238, code: 'CAN', prefix: 'LOSH' },
+  'Drahthaar':            { micro: 239, code: 'DRA', prefix: 'LOSH' },
   'Teckel':               { micro: 240, code: 'TEC', prefix: 'LOSH' },
+  'Boxer':                { micro: 242, code: 'BOX', prefix: 'LOSH' },
+  'Spitz Allemand':       { micro: 243, code: 'SPI', prefix: 'LOSH' },
+  'Bouledogue Français':  { micro: 244, code: 'BOU', prefix: 'LOSH' },
   'Labrador Retriever':   { micro: 245, code: 'LAB', prefix: 'LOSH' },
+  'Leonberg':             { micro: 246, code: 'LEO', prefix: 'LOSH' },
+  'Kangal':               { micro: 248, code: 'KAN', prefix: 'LOSH' },
   'Chihuahua':            { micro: 250, code: 'CHI', prefix: 'LOSH' },
   'Yorkshire Terrier':    { micro: 260, code: 'YOR', prefix: 'LOSH' },
   'Berger Allemand':      { micro: 270, code: 'BA',  prefix: 'LOSH' },

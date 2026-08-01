@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const { newBreeds } = require('./new-breeds-data.cjs');
 const prisma = new PrismaClient();
 
 function d(day, month, year = 2026) {
@@ -149,6 +150,7 @@ async function main() {
     ...bichon.map(p =>     ({ ...p, breed:'Bichon Maltais',        price:1000, color:'Blanc pur',       vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
     ...golden.map(p =>     ({ ...p, breed:'Golden Retriever',      price:1150, color:'Blond doré',      vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
     ...canis.map(p =>      ({ ...p, breed:'Canis Vulgaris',        price:800,  color:'Doré tacheté',    vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true, noPedigree:true })),
+    ...newBreeds.flatMap(b => b.puppies.map(p => ({ ...p, breed:b.breed, price:b.price, color:b.color, vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true }))),
   ];
 
   // Supprime les anciens chiots avant de réinsérer
