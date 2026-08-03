@@ -195,10 +195,12 @@ textarea.input-luxury { resize: vertical; min-height: 100px; line-height: 1.65; 
 .gold-divider { height:1px; background:linear-gradient(90deg,transparent,var(--secondary-border),transparent); }
 
 .puppy-card { transition: border-color 0.35s var(--ease), transform 0.35s var(--ease), box-shadow 0.35s var(--ease); }
+.puppy-card-link { touch-action: manipulation; }
 .puppy-img-zoom { transition:transform 0.7s var(--ease); }
 @media (hover: hover) {
   .puppy-card:hover { border-color: rgba(201,118,46,0.3); transform: translateY(-5px); box-shadow: var(--shadow-md); }
   .puppy-card:hover .puppy-img-zoom { transform:scale(1.07); }
+  .puppy-card:hover .puppy-card-link h3 { color: var(--primary); }
 }
 
 .timeline-item { position:relative; padding-left:40px; }
