@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { formatEuro, getAgeString } from '../utils/helpers';
@@ -7,7 +6,6 @@ import { t } from '../utils/i18n';
 
 export default function PuppyCard({ puppy, index = 0 }) {
   const { lang } = useLangStore();
-  const [hovered, setHovered] = useState(false);
   const l = lang || 'fr';
 
   return (
@@ -15,15 +13,11 @@ export default function PuppyCard({ puppy, index = 0 }) {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.06, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-      onMouseOver={() => setHovered(true)}
-      onMouseOut={() => setHovered(false)}
       className="puppy-card"
       style={{
         background: 'var(--bg-card)', borderRadius: 12, overflow: 'hidden',
-        border: `1px solid ${hovered ? 'rgba(201,118,46,0.3)' : 'var(--border)'}`,
-        transition: 'all 0.35s cubic-bezier(0.16,1,0.3,1)',
-        transform: hovered ? 'translateY(-5px)' : 'translateY(0)',
-        boxShadow: hovered ? 'var(--shadow-md)' : 'var(--shadow-sm)',
+        border: '1px solid var(--border)',
+        boxShadow: 'var(--shadow-sm)',
       }}>
 
       <Link to={`/puppy/${puppy.slug || puppy.id}`} style={{ display: 'block', position: 'relative', overflow: 'hidden' }}>
