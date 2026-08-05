@@ -459,9 +459,9 @@ app.post('/api/reservations', async (req, res) => {
     // Send confirmation emails (sequential, shares 1 pooled connection)
     try {
       await sendReservationConfirmation({ email: guestEmail, name: guestName, reservation, puppy });
-      console.log('Confirmation email sent to', guestEmail);
+      console.log('Bestätigungs-E-Mail gesendet an', guestEmail);
     } catch (err) {
-      console.error('Confirmation email error:', err.message);
+      console.error('Fehler bei der Bestätigungs-E-Mail:', err.message);
     }
     try {
       await sendAdminNotification({ reservation, puppy });
