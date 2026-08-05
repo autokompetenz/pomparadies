@@ -29,7 +29,7 @@ async function main() {
     await prisma.puppy.create({
       data: {
         name: p.name,
-        breed: 'Braque Allemand',
+        breed: 'Deutsch Kurzhaar',
         sex: p.sex,
         birthDate: p.birthDate,
         color: 'Foie et blanc',

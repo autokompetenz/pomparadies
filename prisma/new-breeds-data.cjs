@@ -3,7 +3,7 @@ const d = (day, month, year = 2026) =>
 
 const newBreeds = [
   {
-    breed: 'Dogue Allemand',
+    breed: 'Deutsche Dogge',
     price: 1200,
     color: 'Bringé',
     puppies: [
@@ -37,7 +37,7 @@ const newBreeds = [
     ],
   },
   {
-    breed: 'Caniche',
+    breed: 'Pudel',
     price: 1000,
     color: 'Blanc crème',
     puppies: [
@@ -54,7 +54,7 @@ const newBreeds = [
     ],
   },
   {
-    breed: 'Drahthaar',
+    breed: 'Deutsch Drahthaar',
     price: 950,
     color: 'Marron et blanc',
     puppies: [
@@ -88,7 +88,7 @@ const newBreeds = [
     ],
   },
   {
-    breed: 'Spitz Allemand',
+    breed: 'Deutscher Spitz',
     price: 850,
     color: 'Blanc',
     puppies: [
@@ -105,7 +105,7 @@ const newBreeds = [
     ],
   },
   {
-    breed: 'Bouledogue Français',
+    breed: 'Französische Bulldogge',
     price: 1300,
     color: 'Fauve',
     puppies: [
@@ -122,7 +122,7 @@ const newBreeds = [
     ],
   },
   {
-    breed: 'Leonberg',
+    breed: 'Leonberger',
     price: 1400,
     color: 'Sable',
     puppies: [

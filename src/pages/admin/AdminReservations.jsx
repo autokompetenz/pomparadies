@@ -5,7 +5,7 @@ import { formatEuro, formatDate } from '../../utils/helpers';
 import { Loader } from '../../components/UI';
 import { useToastStore } from '../../store';
 
-const STATUS_LABELS = { pending:'En attente', deposit_confirmed:'Acompte confirmé', preparing:'En préparation', ready:'Prêt(e)', delivered:'Remis(e)', cancelled:'Annulée' };
+const STATUS_LABELS = { pending:'Ausstehend', deposit_confirmed:'Anzahlung bestätigt', preparing:'In Vorbereitung', ready:'Bereit', delivered:'Übergeben', cancelled:'Storniert' };
 
 export default function AdminReservations() {
   const [reservations, setReservations] = useState([]);
@@ -27,17 +27,17 @@ export default function AdminReservations() {
   useEffect(() => { fetch(); }, []);
 
   const countFor = (id) => Array.isArray(statusCounts) ? statusCounts.find(s => s.status === id)?._count?.status || 0 : 0;
-  const tabs = [{ id:'', label:'Toutes' }, ...Object.entries(STATUS_LABELS).map(([id,label]) => ({ id, label }))];
+  const tabs = [{ id:'', label:'Alle' }, ...Object.entries(STATUS_LABELS).map(([id,label]) => ({ id, label }))];
 
   const handleDelete = async (e, id) => {
     e.preventDefault();
-    if (!window.confirm('Supprimer définitivement cette réservation ? Cette action est irréversible.')) return;
+    if (!window.confirm('Diese Reservierung endgültig löschen? Diese Aktion ist unumkehrbar.')) return;
     try {
       await adminAPI.deleteReservation(id);
-      addToast('Réservation supprimée', 'success');
+      addToast('Reservierung gelöscht', 'success');
       fetch(activeTab);
     } catch (err) {
-      addToast(err.response?.data?.error || 'Suppression impossible', 'error');
+      addToast(err.response?.data?.error || 'Löschen nicht möglich', 'error');
     }
   };
 
@@ -45,7 +45,7 @@ export default function AdminReservations() {
     <div style={{ padding:'clamp(24px,5vw,48px) clamp(16px,4vw,44px) 60px', minHeight:'100vh', background:'var(--bg)' }}>
       <div style={{ marginBottom:28 }}>
         <div className="section-eyebrow">Gestion</div>
-        <h1 style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize:'clamp(28px,4vw,48px)', color:'var(--text)', letterSpacing:'-0.02em' }}>Réservations</h1>
+        <h1 style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize:'clamp(28px,4vw,48px)', color:'var(--text)', letterSpacing:'-0.02em' }}>Reservierungen</h1>
       </div>
 
       <div style={{ display:'flex', gap:8, flexWrap:'wrap', marginBottom:24 }}>
@@ -58,13 +58,13 @@ export default function AdminReservations() {
         ))}
       </div>
 
-      {loading ? <Loader text="Chargement..." /> : (
+      {loading ? <Loader text="Wird geladen..." /> : (
         <div style={{ background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:12, overflow:'hidden', boxShadow:'var(--shadow-sm)' }}>
           <div style={{ overflowX:'auto' }}>
             <table style={{ width:'100%', borderCollapse:'collapse', fontSize:14 }}>
               <thead>
                 <tr style={{ borderBottom:'1px solid var(--border)' }}>
-                  {['N° Réservation','Client','Chiot','Date','Montant','Statut','Action'].map(h => (
+                  {['Nr. Reservierung','Kunde','Welpe','Datum','Betrag','Status','Aktion'].map(h => (
                     <th key={h} style={{ textAlign:'left', fontSize:11, fontWeight:800, letterSpacing:'0.16em', textTransform:'uppercase', color:'var(--text-3)', padding:'14px 20px', background:'var(--bg-card2)' }}>{h}</th>
                   ))}
                 </tr>
@@ -89,7 +89,7 @@ export default function AdminReservations() {
                     </td>
                     <td style={{ padding:'14px 20px' }}>
                       <div style={{ display:'flex', gap:8, alignItems:'center' }}>
-                        <Link to={`/admin/reservations/${res.id}`} className="btn-primary" style={{ fontSize:12, padding:'10px 18px' }}>Gérer →</Link>
+                        <Link to={`/admin/reservations/${res.id}`} className="btn-primary" style={{ fontSize:12, padding:'10px 18px' }}>Verwalten →</Link>
                         <button onClick={e => handleDelete(e, res.id)} style={{ background:'none', border:'1px solid rgba(239,68,68,0.3)', borderRadius:6, color:'#DC2626', fontSize:13, fontWeight:700, padding:'10px 12px', cursor:'pointer', fontFamily:"'Outfit',sans-serif", transition:'background 0.2s' }}
                           onMouseOver={e => e.currentTarget.style.background = 'rgba(239,68,68,0.08)'}
                           onMouseOut={e => e.currentTarget.style.background = 'none'}>🗑</button>
@@ -98,7 +98,7 @@ export default function AdminReservations() {
                   </tr>
                 ))}
                 {reservations.length === 0 && (
-                  <tr><td colSpan={7} style={{ padding:'48px', textAlign:'center', color:'var(--text-3)' }}>Aucune réservation trouvée</td></tr>
+                  <tr><td colSpan={7} style={{ padding:'48px', textAlign:'center', color:'var(--text-3)' }}>Keine Reservierung gefunden</td></tr>
                 )}
               </tbody>
             </table>

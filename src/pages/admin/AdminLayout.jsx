@@ -21,12 +21,12 @@ export default function AdminLayout() {
   return (
     <div className="admin-layout" style={{ minHeight: '100vh', background: 'var(--bg)' }}>
       <button type="button" className="admin-mobile-menu-btn" aria-expanded={sidebarOpen}
-        aria-controls="admin-sidebar-nav" aria-label="Menu administration"
+        aria-controls="admin-sidebar-nav" aria-label="Admin-Menü"
         onClick={() => setSidebarOpen(true)}>
         <span aria-hidden>☰</span>
       </button>
       {sidebarOpen && (
-        <button type="button" className="admin-sidebar-backdrop" aria-label="Fermer"
+        <button type="button" className="admin-sidebar-backdrop" aria-label="Schließen"
           onClick={() => setSidebarOpen(false)} />
       )}
       <AdminSidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />

@@ -3,47 +3,24 @@ import { motion } from 'framer-motion';
 import { useLangStore, useThemeStore } from '../store';
 
 const RESPONSES = {
-  fr: {
-    default:  "Merci pour votre message ! Nous vous répondons rapidement.\n📧 Nous contacter",
-    horaires: "Nos horaires :\n🕗 Lun–Ven : 09h00 – 18h00\n🕘 Samedi : 10h00 – 16h00\n❌ Dimanche : Fermé",
-    prix:     "Nos chiots sont proposés à des prix justes, incluant pedigree, vaccins, puce et vermifuge.\n\n📧 Contactez-nous pour plus d'infos !",
-    rdv:      "Pour prendre rendez-vous afin de rencontrer un chiot :\n\n📧 Nous contacter",
-    bonjour:  "Bonjour ! Bienvenue chez PomParadies GmbH 🐶\n\nComment puis-je vous aider ?\n• Horaires d'ouverture\n• Prendre rendez-vous\n• Tarifs\n• Garanties",
-    garantie: "Tous nos chiots partent avec :\n✅ Pedigree LOSH\n✅ Vaccins à jour\n✅ Puce électronique\n✅ Vermifuge\n✅ Carnet de santé",
-  },
-  nl: {
-    default:  "Bedankt voor uw bericht! We antwoorden snel.\n📧 Neem contact op",
-    horaires: "Openingstijden:\n🕗 Ma–Vr: 09:00–18:00\n🕘 Za: 10:00–16:00\n❌ Zo: Gesloten",
-    prix:     "Onze puppy's worden aangeboden tegen eerlijke prijzen, inclusief stamboom, vaccinaties, chip en ontworming.\n\n📧 Neem contact op voor meer info!",
-    rdv:      "Om een afspraak te maken om een puppy te ontmoeten:\n\n📧 Neem contact op",
-    bonjour:  "Hallo! Welkom bij PomParadies GmbH 🐶\n\nHoe kan ik u helpen?\n• Openingstijden\n• Afspraak maken\n• Prijzen\n• Garanties",
-    garantie: "Al onze puppy's worden geleverd met:\n✅ Stamboom LOSH\n✅ Vaccinaties up-to-date\n✅ Microchip\n✅ Ontworming\n✅ Gezondheidsboekje",
-  },
-  en: {
-    default:  "Thanks for your message! We'll reply shortly.\n📧 Contact us",
-    horaires: "Opening hours:\n🕗 Mon–Fri: 09:00–18:00\n🕘 Sat: 10:00–16:00\n❌ Sun: Closed",
-    prix:     "Our puppies are offered at fair prices, including pedigree, vaccines, microchip and deworming.\n\n📧 Contact us for more info!",
-    rdv:      "To book an appointment to meet a puppy:\n\n📧 Contact us",
-    bonjour:  "Hello! Welcome to PomParadies GmbH 🐶\n\nHow can I help you?\n• Opening hours\n• Book appointment\n• Pricing\n• Guarantees",
-    garantie: "All our puppies come with:\n✅ LOSH Pedigree\n✅ Up-to-date vaccines\n✅ Microchip\n✅ Deworming\n✅ Health record",
-  },
+  default:  "Vielen Dank für Ihre Nachricht! Wir antworten schnell.\n📧 Kontaktieren Sie uns",
+  horaires: "Unsere Öffnungszeiten:\n🕗 Mo–Fr: 09:00–18:00\n🕘 Sa: 10:00–16:00\n❌ So: Geschlossen",
+  prix:     "Unsere Welpen werden zu fairen Preisen angeboten, inklusive Stammbaum, Impfungen, Chip und Entwurmung.\n\n📧 Kontaktieren Sie uns für weitere Infos!",
+  rdv:      "Um einen Termin zum Kennenlernen eines Welpen zu vereinbaren:\n\n📧 Kontaktieren Sie uns",
+  bonjour:  "Hallo! Willkommen bei PomParadies GmbH 🐶\n\nWie kann ich Ihnen helfen?\n• Öffnungszeiten\n• Termin vereinbaren\n• Preise\n• Garantien",
+  garantie: "Alle unsere Welpen kommen mit:\n✅ LOSH-Stammbaum\n✅ Aktuelle Impfungen\n✅ Mikrochip\n✅ Entwurmung\n✅ Gesundheitspass",
 };
 
-const QUICK_BUTTONS = {
-  fr: ['Horaires', 'Rendez-vous', 'Garanties', 'Tarifs'],
-  nl: ['Openingstijden', 'Afspraak', 'Garanties', 'Prijzen'],
-  en: ['Opening hours', 'Appointment', 'Guarantees', 'Pricing'],
-};
+const QUICK_BUTTONS = ['Öffnungszeiten', 'Termin', 'Garantien', 'Preise'];
 
-function detect(msg, lang) {
+function detect(msg) {
   const m = msg.toLowerCase();
-  const R = RESPONSES[lang] || RESPONSES.fr;
-  if (/hello|hallo|bonjour|hi|hoi/.test(m)) return R.bonjour;
-  if (/heure|horaire|hour|open|tijd|openings/.test(m)) return R.horaires;
-  if (/prix|price|cost|tarif|prijs|kosten/.test(m)) return R.prix;
-  if (/rendez|rdv|appoint|afspraak|afspra|boek/.test(m)) return R.rdv;
-  if (/garantie|garant|warranty|gezond|vaccin|puce|chip/.test(m)) return R.garantie;
-  return R.default;
+  if (/hallo|hi|hey|guten (tag|morgen)|moin|servus/.test(m)) return RESPONSES.bonjour;
+  if (/öffnungszeit|geöffnet|zeiten|open|zeit|spätestens/.test(m)) return RESPONSES.horaires;
+  if (/preis|kosten|tarif|price|zahlung|anzahlung/.test(m)) return RESPONSES.prix;
+  if (/termin|vereinbar|appoint|rdv|kennenlernen|besuch/.test(m)) return RESPONSES.rdv;
+  if (/garantie|gesund|impf|chip|stammbaum|entwurm|rückgab/.test(m)) return RESPONSES.garantie;
+  return RESPONSES.default;
 }
 
 export default function Chatbot() {
@@ -51,11 +28,8 @@ export default function Chatbot() {
   const { theme } = useThemeStore();
   const isDark = theme === 'dark';
 
-  const R  = RESPONSES[lang] || RESPONSES.fr;
-  const QB = QUICK_BUTTONS[lang] || QUICK_BUTTONS.fr;
-
   const [open, setOpen]     = useState(false);
-  const [msgs, setMsgs]     = useState([{ from: 'bot', text: R.bonjour }]);
+  const [msgs, setMsgs]     = useState([{ from: 'bot', text: RESPONSES.bonjour }]);
   const [input, setInput]   = useState('');
   const [typing, setTyping] = useState(false);
   const [notif, setNotif]   = useState(true);
@@ -80,11 +54,6 @@ export default function Chatbot() {
   const quickHoverBg   = isDark ? 'rgba(201,118,46,0.18)' : 'rgba(201,118,46,0.14)';
   const quickHoverText = '#C9762E';
 
-  useEffect(() => {
-    const R2 = RESPONSES[lang] || RESPONSES.fr;
-    setMsgs([{ from: 'bot', text: R2.bonjour }]);
-  }, [lang]);
-
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [msgs, typing]);
   useEffect(() => { if (open) { setNotif(false); setTimeout(() => inputRef.current?.focus(), 300); } }, [open]);
 
@@ -96,12 +65,12 @@ export default function Chatbot() {
     setTyping(true);
     setTimeout(() => {
       setTyping(false);
-      setMsgs(m => [...m, { from: 'bot', text: detect(msg, lang) }]);
+      setMsgs(m => [...m, { from: 'bot', text: detect(msg) }]);
     }, 800 + Math.random() * 600);
   };
 
-  const placeholders  = { fr: 'Votre question...', nl: 'Uw vraag...', en: 'Your question...' };
-  const headerStatus  = { fr: 'En ligne · Répond rapidement', nl: 'Online · Antwoordt snel', en: 'Online · Replies quickly' };
+  const placeholder  = 'Ihre Frage...';
+  const headerStatus = 'Online · Antwortet schnell';
 
   return (
     <>
@@ -126,7 +95,7 @@ export default function Chatbot() {
             </div>
             <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)', display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
               <span style={{ width: 7, height: 7, background: '#4ade80', borderRadius: '50%', display: 'inline-block' }} />
-              {headerStatus[lang] || headerStatus.fr}
+              {headerStatus}
             </div>
           </div>
           <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', fontSize: 20, cursor: 'pointer', lineHeight: 1, padding: 4 }}>✕</button>
@@ -158,7 +127,7 @@ export default function Chatbot() {
 
         {msgs.length <= 2 && (
           <div style={{ padding: '0 14px 12px', display: 'flex', flexWrap: 'wrap', gap: 6, background: winBg }}>
-            {QB.map(q => (
+            {QUICK_BUTTONS.map(q => (
               <button key={q} onClick={() => send(q)}
                 style={{
                   background: quickBg, border: `1px solid ${quickBd}`, color: quickText,
@@ -175,7 +144,7 @@ export default function Chatbot() {
 
         <div style={{ display: 'flex', gap: 8, padding: '12px 14px', borderTop: `1px solid ${footerBord}`, background: footerBg, flexShrink: 0 }}>
           <input ref={inputRef} value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && send()}
-            placeholder={placeholders[lang] || placeholders.fr}
+            placeholder={placeholder}
             style={{
               flex: 1, background: inputBg, border: `1px solid ${inputBorder}`, color: inputText,
               borderRadius: 8, padding: '10px 14px', fontSize: 14, fontFamily: "'Outfit', sans-serif",

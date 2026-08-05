@@ -12,13 +12,13 @@ export default class AdminErrorBoundary extends Component {
       return (
         <div style={{ padding: '48px 24px', minHeight: '50vh', background: 'var(--bg)' }}>
           <h2 style={{ fontFamily: "'Outfit',sans-serif", fontWeight: 800, fontSize: 24, color: 'var(--text)', marginBottom: 12 }}>
-            Une erreur est survenue
+            Ein Fehler ist aufgetreten
           </h2>
           <p style={{ color: 'var(--text-3)', marginBottom: 24, lineHeight: 1.6 }}>
-            Rechargez la page ou retournez à l'administration.
+            Laden Sie die Seite neu oder kehren Sie zur Administration zurück.
           </p>
           <button type="button" className="btn-primary" onClick={() => { window.location.href = '/admin'; }}>
-            Retour au tableau de bord
+            Zurück zum Dashboard
           </button>
         </div>
       );

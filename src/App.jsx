@@ -53,7 +53,7 @@ export default function App() {
   const { lang } = useLangStore();
 
   useEffect(() => {
-    document.documentElement.lang = lang || 'fr';
+    document.documentElement.lang = 'de';
   }, [lang]);
 
   return (

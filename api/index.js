@@ -10,10 +10,10 @@ const { generateReservationNumber, generateUniquePuppyIds } = require('../lib/he
 
 const app = express();
 
-if (!process.env.SUPABASE_URL) throw new Error('SUPABASE_URL manquant');
-if (!process.env.SUPABASE_SERVICE_ROLE_KEY) throw new Error('SUPABASE_SERVICE_ROLE_KEY manquant');
-if (!process.env.ADMIN_ACCESS_CODE) console.warn('⚠ ADMIN_ACCESS_CODE non défini');
-if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET manquant');
+if (!process.env.SUPABASE_URL) throw new Error('SUPABASE_URL fehlt');
+if (!process.env.SUPABASE_SERVICE_ROLE_KEY) throw new Error('SUPABASE_SERVICE_ROLE_KEY fehlt');
+if (!process.env.ADMIN_ACCESS_CODE) console.warn('⚠ ADMIN_ACCESS_CODE nicht festgelegt');
+if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET fehlt');
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
@@ -22,8 +22,8 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SER
   const { data: buckets } = await supabase.storage.listBuckets();
   if (!buckets?.find(b => b.name === 'puppies')) {
     const { error } = await supabase.storage.createBucket('puppies', { public: true });
-    if (error) console.error('⚠ Erreur création bucket puppies:', error.message);
-    else console.log('✅ Bucket puppies créé');
+    if (error) console.error('⚠ Fehler beim Erstellen des Buckets puppies:', error.message);
+    else console.log('✅ Bucket puppies erstellt');
   }
 })();
 
@@ -34,7 +34,7 @@ const upload = multer({
     if (file.mimetype && (file.mimetype.startsWith('image/') || file.mimetype === 'application/pdf')) {
       cb(null, true);
     } else {
-      cb(new Error('Seuls les fichiers image et PDF sont autorisés'), false);
+      cb(new Error('Nur Bild- und PDF-Dateien sind erlaubt'), false);
     }
   }
 });
@@ -90,15 +90,15 @@ app.use(express.json());
 const adminLoginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
-  message: { error: 'Trop de tentatives. Réessayez dans 15 minutes.' },
+  message: { error: 'Zu viele Versuche. Bitte in 15 Minuten erneut versuchen.' },
 });
 
 // ─── Admin Auth ────────────────────────────────────────────────────────────
 app.post('/api/admin/login', adminLoginLimiter, (req, res) => {
   const { code } = req.body;
-  if (!code) return res.status(400).json({ error: 'Code requis' });
+  if (!code) return res.status(400).json({ error: 'Code erforderlich' });
   if (code !== process.env.ADMIN_ACCESS_CODE) {
-    return res.status(401).json({ error: 'Code incorrect' });
+    return res.status(401).json({ error: 'Falscher Code' });
   }
   const token = jwt.sign({ role: 'admin', id: 'admin' }, process.env.JWT_SECRET, { expiresIn: '8h' });
   res.json({ token, expiresIn: '8h' });
@@ -107,17 +107,17 @@ app.post('/api/admin/login', adminLoginLimiter, (req, res) => {
 function authenticateAdmin(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Code d\'accès manquant' });
+    return res.status(401).json({ error: 'Zugangscode fehlt' });
   }
   try {
     const token = authHeader.split(' ')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (decoded.role !== 'admin') {
-      return res.status(403).json({ error: 'Accès non autorisé' });
+      return res.status(403).json({ error: 'Zugriff nicht autorisiert' });
     }
     next();
   } catch (e) {
-    return res.status(401).json({ error: 'Code invalide ou expiré' });
+    return res.status(401).json({ error: 'Ungültiger oder abgelaufener Code' });
   }
 }
 
@@ -159,7 +159,7 @@ app.get('/api/puppies', async (req, res) => {
     res.json({ puppies, total });
   } catch (error) {
     console.error('GET /api/puppies error:', error);
-    res.status(500).json({ error: error.message || 'Erreur serveur', puppies: [], total: 0 });
+    res.status(500).json({ error: error.message || 'Serverfehler', puppies: [], total: 0 });
   }
 });
 
@@ -172,7 +172,7 @@ app.get('/api/puppies/breeds', async (req, res) => {
     });
     res.json({ breeds: breeds.map(b => ({ breed: b.breed, count: b._count.breed })) });
   } catch (error) {
-    res.status(500).json({ error: 'Erreur serveur', breeds: [] });
+    res.status(500).json({ error: 'Serverfehler', breeds: [] });
   }
 });
 
@@ -181,13 +181,13 @@ app.get('/api/puppies/:id', async (req, res) => {
     const { id } = req.params;
     const puppyId = Number(id);
     if (isNaN(puppyId) || puppyId <= 0) {
-      return res.status(400).json({ error: 'ID invalide' });
+      return res.status(400).json({ error: 'Ungültige ID' });
     }
     const puppy = await prisma.puppy.findUnique({ where: { id: puppyId } });
-    if (!puppy) return res.status(404).json({ error: 'Chiot non trouvé' });
+    if (!puppy) return res.status(404).json({ error: 'Welpe nicht gefunden' });
     res.json({ puppy });
   } catch (error) {
-    res.status(500).json({ error: error.message || 'Erreur serveur' });
+    res.status(500).json({ error: error.message || 'Serverfehler' });
   }
 });
 
@@ -197,7 +197,7 @@ app.get('/api/admin/puppies', authenticateAdmin, async (req, res) => {
     const puppies = await prisma.puppy.findMany({ orderBy: { createdAt: 'desc' } });
     res.json({ puppies, total: puppies.length });
   } catch (error) {
-    res.status(500).json({ error: 'Erreur serveur', puppies: [], total: 0 });
+    res.status(500).json({ error: 'Serverfehler', puppies: [], total: 0 });
   }
 });
 
@@ -205,12 +205,12 @@ app.get('/api/admin/puppies/:id', authenticateAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const puppyId = Number(id);
-    if (isNaN(puppyId) || puppyId <= 0) return res.status(400).json({ error: 'ID invalide' });
+    if (isNaN(puppyId) || puppyId <= 0) return res.status(400).json({ error: 'Ungültige ID' });
     const puppy = await prisma.puppy.findUnique({ where: { id: puppyId } });
-    if (!puppy) return res.status(404).json({ error: 'Chiot non trouvé' });
+    if (!puppy) return res.status(404).json({ error: 'Welpe nicht gefunden' });
     res.json({ puppy });
   } catch (error) {
-    res.status(500).json({ error: 'Erreur serveur' });
+    res.status(500).json({ error: 'Serverfehler' });
   }
 });
 
@@ -223,7 +223,7 @@ app.post('/api/admin/puppies', authenticateAdmin, upload.any(), async (req, res)
     const requiredFields = ['name', 'breed', 'sex', 'birthDate', 'price'];
     const missingFields = requiredFields.filter(field => !req.body[field]);
     if (missingFields.length > 0) {
-      return res.status(400).json({ error: `Champs obligatoires: ${missingFields.join(', ')}` });
+      return res.status(400).json({ error: `Pflichtfelder: ${missingFields.join(', ')}` });
     }
 
     const puppyData = {
@@ -231,12 +231,12 @@ app.post('/api/admin/puppies', authenticateAdmin, upload.any(), async (req, res)
       breed: req.body.breed,
       sex: req.body.sex,
       birthDate: new Date(req.body.birthDate),
-      color: req.body.color || 'Non spécifiée',
+      color: req.body.color || 'Nicht angegeben',
       price: parseFloat(req.body.price),
       deposit: req.body.deposit ? parseFloat(req.body.deposit) : Math.round(parseFloat(req.body.price) * 0.25),
       microchipNumber: req.body.microchipNumber || null,
-      vaccinationStatus: req.body.vaccinationStatus || 'À jour',
-      dewormingStatus: req.body.dewormingStatus || 'À jour',
+      vaccinationStatus: req.body.vaccinationStatus || 'Aktuell',
+      dewormingStatus: req.body.dewormingStatus || 'Aktuell',
       weightEstimatedAdult: req.body.weightEstimatedAdult ? parseFloat(req.body.weightEstimatedAdult) : null,
       description: req.body.description || null,
       pedigreeDocUrl: req.body.pedigreeDocUrl || null,
@@ -265,7 +265,7 @@ app.post('/api/admin/puppies', authenticateAdmin, upload.any(), async (req, res)
     res.status(201).json({ puppy });
   } catch (error) {
     console.error('Create puppy error:', error);
-    res.status(500).json({ error: 'Erreur lors de la création du chiot' });
+    res.status(500).json({ error: 'Fehler beim Erstellen des Welpen' });
   }
 });
 
@@ -278,7 +278,7 @@ app.put('/api/admin/puppies/:id', authenticateAdmin, upload.any(), async (req, r
     const { id } = req.params;
     const puppyId = Number(id);
     if (isNaN(puppyId) || puppyId <= 0) {
-      return res.status(400).json({ error: 'ID invalide' });
+      return res.status(400).json({ error: 'Ungültige ID' });
     }
 
     const puppyData = {
@@ -286,12 +286,12 @@ app.put('/api/admin/puppies/:id', authenticateAdmin, upload.any(), async (req, r
       breed: req.body.breed,
       sex: req.body.sex,
       birthDate: new Date(req.body.birthDate),
-      color: req.body.color || 'Non spécifiée',
+      color: req.body.color || 'Nicht angegeben',
       price: parseFloat(req.body.price),
       deposit: req.body.deposit ? parseFloat(req.body.deposit) : Math.round(parseFloat(req.body.price) * 0.25),
       microchipNumber: req.body.microchipNumber || null,
-      vaccinationStatus: req.body.vaccinationStatus || 'À jour',
-      dewormingStatus: req.body.dewormingStatus || 'À jour',
+      vaccinationStatus: req.body.vaccinationStatus || 'Aktuell',
+      dewormingStatus: req.body.dewormingStatus || 'Aktuell',
       weightEstimatedAdult: req.body.weightEstimatedAdult ? parseFloat(req.body.weightEstimatedAdult) : null,
       description: req.body.description || null,
       pedigreeDocUrl: req.body.pedigreeDocUrl || null,
@@ -330,41 +330,41 @@ app.put('/api/admin/puppies/:id', authenticateAdmin, upload.any(), async (req, r
     res.json({ puppy });
   } catch (error) {
     console.error('Update puppy error:', error);
-    res.status(500).json({ error: 'Erreur lors de la mise à jour' });
+    res.status(500).json({ error: 'Fehler bei der Aktualisierung' });
   }
 });
 
 app.patch('/api/admin/puppies/:id/toggle', authenticateAdmin, async (req, res) => {
   try {
     const puppyId = parseInt(req.params.id);
-    if (isNaN(puppyId)) return res.status(400).json({ error: 'ID invalide' });
+    if (isNaN(puppyId)) return res.status(400).json({ error: 'Ungültige ID' });
     const existing = await prisma.puppy.findUnique({ where: { id: puppyId } });
-    if (!existing) return res.status(404).json({ error: 'Chiot non trouvé' });
+    if (!existing) return res.status(404).json({ error: 'Welpe nicht gefunden' });
     const puppy = await prisma.puppy.update({
       where: { id: puppyId },
       data: { isActive: !existing.isActive },
     });
     res.json({ puppy });
   } catch (e) {
-    res.status(500).json({ error: 'Erreur serveur' });
+    res.status(500).json({ error: 'Serverfehler' });
   }
 });
 
 app.delete('/api/admin/puppies/:id', authenticateAdmin, async (req, res) => {
   try {
     const puppyId = parseInt(req.params.id);
-    if (isNaN(puppyId) || puppyId <= 0) return res.status(400).json({ error: 'ID invalide' });
+    if (isNaN(puppyId) || puppyId <= 0) return res.status(400).json({ error: 'Ungültige ID' });
     const existing = await prisma.puppy.findUnique({ where: { id: puppyId } });
-    if (!existing) return res.status(404).json({ error: 'Chiot non trouvé' });
+    if (!existing) return res.status(404).json({ error: 'Welpe nicht gefunden' });
     await prisma.$transaction([
       prisma.reservationTracking.deleteMany({ where: { reservation: { puppyId } } }),
       prisma.reservation.deleteMany({ where: { puppyId } }),
       prisma.puppy.delete({ where: { id: puppyId } }),
     ]);
-    res.json({ success: true, message: 'Chiot supprimé' });
+    res.json({ success: true, message: 'Welpe gelöscht' });
   } catch (e) {
     console.error('Delete puppy error:', e);
-    res.status(500).json({ error: 'Erreur lors de la suppression' });
+    res.status(500).json({ error: 'Fehler beim Löschen' });
   }
 });
 
@@ -373,14 +373,14 @@ app.post('/api/waitlist', async (req, res) => {
   try {
     const { breed, name, email, phone } = req.body;
     if (!breed || !name || !email) {
-      return res.status(400).json({ error: 'Race, nom et email requis' });
+      return res.status(400).json({ error: 'Rasse, Name und E-Mail erforderlich' });
     }
     const entry = await prisma.waitlistEntry.create({
       data: { breed, name, email, phone: phone || null }
     });
     res.status(201).json({ success: true, entry });
   } catch (e) {
-    res.status(500).json({ error: 'Erreur serveur' });
+    res.status(500).json({ error: 'Serverfehler' });
   }
 });
 
@@ -389,12 +389,12 @@ app.post('/api/reservations', async (req, res) => {
   try {
     const { puppyId, guestName, guestEmail, guestPhone, guestProfession, guestHomeAddress, deliveryMethod, deliveryAddress, notes, paymentMethod, hasPet, hasLostPet } = req.body;
     if (!puppyId || !guestName || !guestEmail || !guestPhone) {
-      return res.status(400).json({ error: 'Champs obligatoires manquants' });
+      return res.status(400).json({ error: 'Pflichtfelder fehlen' });
     }
 
     const puppy = await prisma.puppy.findUnique({ where: { id: parseInt(puppyId) } });
     if (!puppy || !puppy.isActive || puppy.status === 'sold') {
-      return res.status(404).json({ error: 'Chiot non trouvé' });
+      return res.status(404).json({ error: 'Welpe nicht gefunden' });
     }
 
     // Payment logic
@@ -405,8 +405,8 @@ app.post('/api/reservations', async (req, res) => {
     const depositAmount = isFullPayment ? totalPrice : Math.round(puppy.price * 0.5);
     const balanceAmount = isFullPayment ? 0 : puppy.price - depositAmount;
     const paymentLabel = isFullPayment
-      ? `Paiement intégral (-${discountPercent}%)`
-      : `Acompte 50% (solde à la livraison)`;
+      ? `Vollzahlung (-${discountPercent}%)`
+      : `Anzahlung 50% (Restbetrag bei Übergabe)`;
 
     let reservationNumber;
     let exists = true;
@@ -449,7 +449,7 @@ app.post('/api/reservations', async (req, res) => {
         data: {
           reservationId: newReservation.id,
           status: 'pending',
-          comment: 'Demande de réservation reçue',
+          comment: 'Reservierungsanfrage erhalten',
         },
       });
 
@@ -473,7 +473,7 @@ app.post('/api/reservations', async (req, res) => {
     res.status(201).json({ success: true, reservationNumber: reservation.reservationNumber, reservation });
   } catch (e) {
     console.error('Create reservation error:', e);
-    res.status(500).json({ error: 'Erreur serveur' });
+    res.status(500).json({ error: 'Serverfehler' });
   }
 });
 
@@ -487,10 +487,10 @@ app.get('/api/reservations/track/:reservationNumber', async (req, res) => {
         tracking: { orderBy: { createdAt: 'desc' } },
       },
     });
-    if (!reservation) return res.status(404).json({ error: 'Réservation non trouvée' });
+    if (!reservation) return res.status(404).json({ error: 'Reservierung nicht gefunden' });
     res.json({ reservation });
   } catch (e) {
-    res.status(500).json({ error: 'Erreur serveur' });
+    res.status(500).json({ error: 'Serverfehler' });
   }
 });
 
@@ -517,7 +517,7 @@ app.get('/api/admin/reservations', authenticateAdmin, async (req, res) => {
     });
     res.json({ reservations, total, statusCounts });
   } catch (e) {
-    res.status(500).json({ error: 'Erreur serveur' });
+    res.status(500).json({ error: 'Serverfehler' });
   }
 });
 
@@ -535,10 +535,10 @@ app.get('/api/admin/reservations/:id', authenticateAdmin, async (req, res) => {
         tracking: { orderBy: { createdAt: 'desc' } },
       },
     });
-    if (!reservation) return res.status(404).json({ error: 'Réservation non trouvée' });
+    if (!reservation) return res.status(404).json({ error: 'Reservierung nicht gefunden' });
     res.json({ reservation });
   } catch (e) {
-    res.status(500).json({ error: 'Erreur serveur' });
+    res.status(500).json({ error: 'Serverfehler' });
   }
 });
 
@@ -548,7 +548,7 @@ app.patch('/api/admin/reservations/:id', authenticateAdmin, async (req, res) => 
     const { status, comment } = req.body;
     const validStatuses = ['pending', 'deposit_confirmed', 'preparing', 'ready', 'delivered', 'cancelled'];
     if (!validStatuses.includes(status)) {
-      return res.status(400).json({ error: 'Statut invalide' });
+      return res.status(400).json({ error: 'Ungültiger Status' });
     }
 
     const reservation = await prisma.reservation.update({
@@ -585,7 +585,7 @@ app.patch('/api/admin/reservations/:id', authenticateAdmin, async (req, res) => 
     res.json({ success: true, reservation });
   } catch (e) {
     console.error('Update reservation error:', e);
-    res.status(500).json({ error: 'Erreur serveur' });
+    res.status(500).json({ error: 'Serverfehler' });
   }
 });
 
@@ -594,7 +594,7 @@ app.post('/api/admin/reservations/:id/reply', authenticateAdmin, async (req, res
   try {
     const { id } = req.params;
     const reservationId = parseInt(id);
-    if (isNaN(reservationId)) return res.status(400).json({ error: 'ID invalide' });
+    if (isNaN(reservationId)) return res.status(400).json({ error: 'Ungültige ID' });
 
     const { message, subject } = req.body;
     if (!message || !message.trim()) {
@@ -605,12 +605,12 @@ app.post('/api/admin/reservations/:id/reply', authenticateAdmin, async (req, res
       where: { id: reservationId },
       include: { puppy: { select: { name: true } } },
     });
-    if (!reservation) return res.status(404).json({ error: 'Réservation non trouvée' });
+    if (!reservation) return res.status(404).json({ error: 'Reservierung nicht gefunden' });
 
     await sendReplyToCustomer({
       email: reservation.guestEmail,
       name: reservation.guestName,
-      subject: subject || `PomParadies GmbH — Suivi réservation ${reservation.reservationNumber}`,
+      subject: subject || `PomParadies GmbH — Reservierungsstatus ${reservation.reservationNumber}`,
       message: message.trim(),
     });
 
@@ -618,14 +618,14 @@ app.post('/api/admin/reservations/:id/reply', authenticateAdmin, async (req, res
       data: {
         reservationId,
         status: reservation.status,
-        comment: `📧 Message envoyé au client : ${message.trim().substring(0, 100)}${message.length > 100 ? '...' : ''}`,
+        comment: `📧 Nachricht an den Kunden gesendet : ${message.trim().substring(0, 100)}${message.length > 100 ? '...' : ''}`,
       },
     });
 
-    res.json({ success: true, message: 'Message envoyé au client' });
+    res.json({ success: true, message: 'Nachricht an den Kunden gesendet' });
   } catch (e) {
     console.error('Reply error:', e);
-    res.status(500).json({ error: 'Erreur lors de l\'envoi du message' });
+    res.status(500).json({ error: 'Fehler beim Senden der Nachricht' });
   }
 });
 
@@ -633,10 +633,10 @@ app.post('/api/admin/reservations/:id/reply', authenticateAdmin, async (req, res
 app.delete('/api/admin/reservations/:id', authenticateAdmin, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    if (isNaN(id)) return res.status(400).json({ error: 'ID invalide' });
+    if (isNaN(id)) return res.status(400).json({ error: 'Ungültige ID' });
 
     const reservation = await prisma.reservation.findUnique({ where: { id } });
-    if (!reservation) return res.status(404).json({ error: 'Réservation non trouvée' });
+    if (!reservation) return res.status(404).json({ error: 'Reservierung nicht gefunden' });
 
     await prisma.$transaction(async (tx) => {
       await tx.reservationTracking.deleteMany({ where: { reservationId: id } });
@@ -644,13 +644,13 @@ app.delete('/api/admin/reservations/:id', authenticateAdmin, async (req, res) =>
     });
 
     await prisma.adminLog.create({
-      data: { action: 'DELETE_RESERVATION', detail: `Réservation #${reservation.reservationNumber} supprimée` },
+      data: { action: 'DELETE_RESERVATION', detail: `Reservierung #${reservation.reservationNumber} gelöscht` },
     });
 
-    res.json({ success: true, message: 'Réservation supprimée définitivement' });
+    res.json({ success: true, message: 'Reservierung endgültig gelöscht' });
   } catch (e) {
     console.error('Hard delete reservation error:', e);
-    res.status(500).json({ error: 'Erreur lors de la suppression' });
+    res.status(500).json({ error: 'Fehler beim Löschen' });
   }
 });
 
@@ -681,7 +681,7 @@ app.get('/api/admin/stats', authenticateAdmin, async (req, res) => {
     res.status(500).json({
       totalPuppies: 0, availablePuppies: 0, totalReservations: 0,
       pendingReservations: 0, totalRevenue: 0, recentReservations: [],
-      error: 'Erreur récupération statistiques'
+      error: 'Fehler beim Abrufen der Statistiken'
     });
   }
 });
@@ -706,7 +706,7 @@ app.get('/api/admin/clients', authenticateAdmin, async (req, res) => {
     ]);
     res.json({ clients, total, page: parseInt(page), limit: take });
   } catch (e) {
-    res.status(500).json({ error: 'Erreur serveur' });
+    res.status(500).json({ error: 'Serverfehler' });
   }
 });
 
@@ -716,19 +716,19 @@ app.get('/api/admin/waitlist', authenticateAdmin, async (req, res) => {
     const entries = await prisma.waitlistEntry.findMany({ orderBy: { createdAt: 'desc' } });
     res.json({ entries });
   } catch (e) {
-    res.status(500).json({ error: 'Erreur serveur' });
+    res.status(500).json({ error: 'Serverfehler' });
   }
 });
 
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ error: 'Erreur serveur interne' });
+  res.status(500).json({ error: 'Interner Serverfehler' });
 });
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ error: 'Route non trouvée' });
+  res.status(404).json({ error: 'Route nicht gefunden' });
 });
 
 module.exports = app;

@@ -11,22 +11,22 @@ export default function AdminClients() {
     adminAPI.clients().then(r => { setClients(r.data.clients); setLoading(false); }).catch(() => setLoading(false));
   }, []);
 
-  if (loading) return <div style={{ padding: 40 }}><Loader text="Chargement des clients..." /></div>;
+  if (loading) return <div style={{ padding: 40 }}><Loader text="Kunden werden geladen..." /></div>;
 
   return (
     <div style={{ padding:'clamp(24px,5vw,48px) clamp(16px,4vw,44px) 60px', minHeight:'100vh', background:'var(--bg)' }}>
       <div style={{ marginBottom:32 }}>
         <div className="section-eyebrow">CRM</div>
         <h1 style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize:'clamp(28px,4vw,48px)', color:'var(--text)', letterSpacing:'-0.02em' }}>
-          Clients <span style={{ color:'var(--text-3)', fontSize:'0.55em', fontWeight:600 }}>({clients.length})</span>
+          Kunden <span style={{ color:'var(--text-3)', fontSize:'0.55em', fontWeight:600 }}>({clients.length})</span>
         </h1>
       </div>
 
       {clients.length === 0 ? (
         <div style={{ textAlign:'center', padding:'60px 24px', background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:12 }}>
           <p style={{ fontSize:48, marginBottom:16 }}>👥</p>
-          <p style={{ fontWeight:700, color:'var(--text)', marginBottom:8 }}>Aucun client</p>
-          <p style={{ color:'var(--text-3)' }}>Les clients apparaîtront après la première réservation.</p>
+          <p style={{ fontWeight:700, color:'var(--text)', marginBottom:8 }}>Keine Kunden</p>
+          <p style={{ color:'var(--text-3)' }}>Kunden erscheinen nach der ersten Reservierung.</p>
         </div>
       ) : (
         <div style={{ background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:12, overflow:'hidden', boxShadow:'var(--shadow-sm)' }}>
@@ -34,7 +34,7 @@ export default function AdminClients() {
             <table style={{ width:'100%', borderCollapse:'collapse', fontSize:14 }}>
               <thead>
                 <tr style={{ borderBottom:'1px solid var(--border)' }}>
-                  {['Client','Contact','Réservations','Total dépensé','Première réservation'].map(h => (
+                  {['Kunde','Kontakt','Reservierungen','Gesamtausgaben','Erste Reservierung'].map(h => (
                     <th key={h} style={{ textAlign:'left', fontSize:11, fontWeight:800, letterSpacing:'0.16em', textTransform:'uppercase', color:'var(--text-3)', padding:'14px 20px', background:'var(--bg-card2)' }}>{h}</th>
                   ))}
                 </tr>

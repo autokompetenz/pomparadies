@@ -145,15 +145,15 @@ async function main() {
     ...yorkshire.map(p => ({ ...p, breed:'Yorkshire Terrier',   price:1100, color:'Gris acier et feu',  vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
     ...jackrussell.map(p => ({ ...p, breed:'Jack Russell Terrier', price:750, color:'Blanc et feu',     vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
     ...teckel.map(p =>     ({ ...p, breed:'Teckel',                  price:900, color:'Noir et feu',      vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
-    ...braque.map(p =>     ({ ...p, breed:'Braque Allemand',         price:850, color:'Foie et blanc',    vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
-    ...berger.map(p =>     ({ ...p, breed:'Berger Allemand',       price:1180, color:'Noir et feu',     vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
-    ...bichon.map(p =>     ({ ...p, breed:'Bichon Maltais',        price:1000, color:'Blanc pur',       vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
+    ...braque.map(p =>     ({ ...p, breed:'Deutsch Kurzhaar',       price:850, color:'Foie et blanc',    vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
+    ...berger.map(p =>     ({ ...p, breed:'Deutscher Schäferhund',  price:1180, color:'Noir et feu',     vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
+    ...bichon.map(p =>     ({ ...p, breed:'Malteser',               price:1000, color:'Blanc pur',       vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
     ...golden.map(p =>     ({ ...p, breed:'Golden Retriever',      price:1150, color:'Blond doré',      vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
     ...canis.map(p =>      ({ ...p, breed:'Canis Vulgaris',        price:800,  color:'Doré tacheté',    vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true, noPedigree:true })),
     ...newBreeds.flatMap(b => b.puppies.map(p => ({ ...p, breed:b.breed, price:b.price, color:b.color, vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true }))),
   ];
 
-  // Supprime les anciens chiots avant de réinsérer
+  // Löscht die alten Welpen vor dem erneuten Einfügen
   await prisma.reservation.deleteMany();
   await prisma.puppy.deleteMany();
 
@@ -179,8 +179,8 @@ async function main() {
     });
   }
 
-  console.log(`✅ ${seeds.length} chiots créés`);
-  console.log('🎉 Seeding terminé !');
+  console.log(`✅ ${seeds.length} Welpen erstellt`);
+  console.log('🎉 Seeding abgeschlossen !');
 }
 
 main().catch(e => { console.error(e); process.exit(1); }).finally(() => prisma.$disconnect());

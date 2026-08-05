@@ -5,6 +5,8 @@ import { adminAPI } from '../../services/api';
 import { formatEuro, formatDate } from '../../utils/helpers';
 import { Loader } from '../../components/UI';
 
+const STATUS_LABELS = { pending:'Ausstehend', deposit_confirmed:'Anzahlung bestätigt', preparing:'In Vorbereitung', ready:'Bereit', delivered:'Übergeben', cancelled:'Storniert' };
+
 export default function AdminDashboard() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -13,17 +15,17 @@ export default function AdminDashboard() {
     adminAPI.stats().then(r => { setData(r.data); setLoading(false); }).catch(() => setLoading(false));
   }, []);
 
-  if (loading) return <div style={{ padding: 40 }}><Loader text="Chargement du tableau de bord..." /></div>;
+  if (loading) return <div style={{ padding: 40 }}><Loader text="Dashboard wird geladen..." /></div>;
   if (!data) return null;
 
   const { totalPuppies = 0, totalReservations = 0, pendingReservations = 0, totalRevenue = 0, recentReservations = [] } = data;
 
   const statCards = [
-    { icon:'👥', label:'Chiots', value: totalPuppies, color:'#60A5FA', sub:'En catalogue' },
-    { icon:'📈', label:'Réservations', value: totalReservations, color:'#C084FC', sub:'Total réservations' },
-    { icon:'💵', label:'Chiffre d\'affaires', value: formatEuro(totalRevenue), color:'#C9762E', sub:'Hors annulées', wide: true },
-    { icon:'?', label:'En attente', value: pendingReservations, color: pendingReservations > 0 ? '#FFAA00' : '#22C55E', sub: pendingReservations > 0 ? 'Action requise' : 'Aucune en attente' },
-    { icon:'🐾', label:'Disponibles', value: data?.availablePuppies || 0, color:'#22C55E', sub:'À l\'adoption' },
+    { icon:'👥', label:'Welpen', value: totalPuppies, color:'#60A5FA', sub:'Im Katalog' },
+    { icon:'📈', label:'Reservierungen', value: totalReservations, color:'#C084FC', sub:'Reservierungen gesamt' },
+    { icon:'💵', label:'Umsatz', value: formatEuro(totalRevenue), color:'#C9762E', sub:'Ohne stornierte', wide: true },
+    { icon:'?', label:'Ausstehend', value: pendingReservations, color: pendingReservations > 0 ? '#FFAA00' : '#22C55E', sub: pendingReservations > 0 ? 'Maßnahme erforderlich' : 'Keine ausstehend' },
+    { icon:'🐾', label:'Verfügbar', value: data?.availablePuppies || 0, color:'#22C55E', sub:'Zur Adoption' },
   ];
 
   return (
@@ -31,7 +33,7 @@ export default function AdminDashboard() {
       <div style={{ marginBottom:36 }}>
         <div className="section-eyebrow">Administration</div>
         <h1 style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize:'clamp(28px,4vw,48px)', color:'var(--text)', letterSpacing:'-0.02em' }}>
-          Tableau de bord
+          Dashboard
         </h1>
       </div>
 
@@ -55,18 +57,18 @@ export default function AdminDashboard() {
 
       <div style={{ background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:12, overflow:'hidden', boxShadow:'var(--shadow-sm)' }}>
         <div style={{ padding:'16px 20px', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'space-between', background:'var(--bg-card2)' }}>
-          <p style={{ fontSize:11, fontWeight:800, letterSpacing:'0.25em', textTransform:'uppercase', color:'var(--primary)' }}>Dernières réservations</p>
+          <p style={{ fontSize:11, fontWeight:800, letterSpacing:'0.25em', textTransform:'uppercase', color:'var(--primary)' }}>Letzte Reservierungen</p>
           <Link to="/admin/reservations" style={{ fontSize:13, color:'var(--text-3)', textDecoration:'none', fontWeight:600 }}
             onMouseOver={e => e.currentTarget.style.color = 'var(--primary)'}
             onMouseOut={e => e.currentTarget.style.color = 'var(--text-3)'}>
-            Voir tout → 
+            Alle anzeigen → 
           </Link>
         </div>
         <div style={{ overflowX:'auto' }}>
           <table style={{ width:'100%', borderCollapse:'collapse', fontSize:14 }}>
             <thead>
               <tr style={{ borderBottom:'1px solid var(--border)' }}>
-                {['N° Réservation','Client','Date','Montant','Statut',''].map(h => (
+                {['Nr.','Kunde','Datum','Betrag','Status',''].map(h => (
                   <th key={h} style={{ textAlign:'left', fontSize:11, fontWeight:800, letterSpacing:'0.16em', textTransform:'uppercase', color:'var(--text-3)', padding:'14px 20px', background:'var(--bg-card2)' }}>{h}</th>
                 ))}
               </tr>
@@ -88,16 +90,16 @@ export default function AdminDashboard() {
                   <td style={{ padding:'14px 20px' }}>
                     <span className={`badge badge-${res.status}`}>
                       <span style={{ width:6, height:6, borderRadius:'50%', background:'currentColor', display:'inline-block' }} />
-                      {res.status}
+                      {STATUS_LABELS[res.status] || res.status}
                     </span>
                   </td>
                   <td style={{ padding:'14px 20px' }}>
-                    <Link to={`/admin/reservations/${res.id}`} className="btn-primary" style={{ fontSize:12, padding:'10px 18px', letterSpacing:'0.05em' }}>Gérer</Link>
+                    <Link to={`/admin/reservations/${res.id}`} className="btn-primary" style={{ fontSize:12, padding:'10px 18px', letterSpacing:'0.05em' }}>Verwalten</Link>
                   </td>
                 </tr>
               ))}
               {(!recentReservations || recentReservations.length === 0) && (
-                <tr><td colSpan={6} style={{ padding:'48px', textAlign:'center', color:'var(--text-3)' }}>Aucune réservation récente</td></tr>
+                <tr><td colSpan={6} style={{ padding:'48px', textAlign:'center', color:'var(--text-3)' }}>Keine aktuellen Reservierungen</td></tr>
               )}
             </tbody>
           </table>

@@ -1,32 +1,15 @@
 import { useState, useEffect } from 'react';
-import { useLangStore } from '../store';
 
 const texts = {
-  fr: {
-    title: '🚚 Livraison possible en France',
-    body: 'Nous livrons nos chiots dans toute la France métropolitaine. Transport sécurisé et confortable, avec suivi en temps réel.',
-    note: 'Contactez-nous pour un devis personnalisé.',
-    btn: 'Compris !',
-  },
-  nl: {
-    title: '🚚 Levering mogelijk in Frankrijk',
-    body: 'Wij leveren onze puppy\'s in heel Europees Frankrijk. Veilig en comfortabel transport met realtime tracking.',
-    note: 'Neem contact met ons op voor een aangepaste offerte.',
-    btn: 'Begrepen !',
-  },
-  en: {
-    title: '🚚 Delivery available in France',
-    body: 'We deliver our puppies throughout metropolitan France. Safe and comfortable transport with real-time tracking.',
-    note: 'Contact us for a personalized quote.',
-    btn: 'Got it!',
-  },
+  title: '🚚 Lieferung in ganz Deutschland möglich',
+  body: 'Wir liefern unsere Welpen in ganz Deutschland. Sicherer und komfortabler Transport mit Live-Tracking.',
+  note: 'Kontaktieren Sie uns für ein individuelles Angebot.',
+  btn: 'Verstanden!',
 };
 
 export default function DeliveryModal() {
   const [open, setOpen] = useState(false);
-  const { lang } = useLangStore();
-  const l = lang || 'fr';
-  const t = texts[l] || texts.fr;
+  const t = texts;
 
   useEffect(() => {
     const timer = setTimeout(() => setOpen(true), 600);

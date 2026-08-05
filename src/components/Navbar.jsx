@@ -2,11 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLangStore, useThemeStore, useAdminStore } from '../store';
-import { t, LANGUAGES } from '../utils/i18n';
+import { t } from '../utils/i18n';
 import { useBreakpoint } from '../hooks';
 
 export default function Navbar() {
-  const { lang, setLang } = useLangStore();
+  const { lang } = useLangStore();
   const { theme, toggle } = useThemeStore();
   const { isAuthenticated, logout } = useAdminStore();
   const { isMobile } = useBreakpoint();
@@ -215,36 +215,6 @@ export default function Navbar() {
 
                   <div style={{ height: 1, background: menuBorder, margin: isMobile ? '8px 0' : 0 }} />
 
-                  <div style={{ padding: isMobile ? '8px 0' : '8px 0' }}>
-                    <p style={{
-                      fontSize: 10, fontWeight: 800, letterSpacing: '0.25em',
-                      textTransform: 'uppercase', color: menuText3,
-                      padding: isMobile ? '4px 0 10px' : '4px 18px 8px',
-                    }}>
-                      {lang === 'fr' ? 'Langue' : lang === 'en' ? 'Language' : 'Taal'}
-                    </p>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: isMobile ? 8 : 4, padding: isMobile ? 0 : '0 10px 6px' }}>
-                      {LANGUAGES.map(l => (
-                        <button key={l.code} onClick={() => { setLang(l.code); setMenuOpen(false); }}
-                          style={{
-                            display: 'flex', alignItems: 'center', gap: 7,
-                            padding: isMobile ? '10px 6px' : '8px 10px',
-                            background: l.code === lang ? 'rgba(201,118,46,0.1)' : 'transparent',
-                            border: `1px solid ${l.code === lang ? 'rgba(201,118,46,0.3)' : 'transparent'}`,
-                            borderRadius: 6, cursor: 'pointer',
-                            fontSize: isMobile ? 14 : 13,
-                            color: l.code === lang ? 'var(--primary)' : menuText2,
-                            fontFamily: F, fontWeight: l.code === lang ? 700 : 400,
-                            transition: 'all 0.15s',
-                          }}
-                          onMouseOver={e => { if (l.code !== lang) e.currentTarget.style.background = menuHover; }}
-                          onMouseOut={e => { if (l.code !== lang) e.currentTarget.style.background = 'transparent'; }}>
-                          <span style={{ fontSize: isMobile ? 18 : 16 }}>{l.flag}</span> {l.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
                   {isAuthenticated && (
                     <>
                       <div style={{ height: 1, background: menuBorder, margin: isMobile ? '8px 0' : 0 }} />
@@ -254,7 +224,7 @@ export default function Navbar() {
                           onMouseOver={e => { if (!isMobile) e.currentTarget.style.background = 'rgba(239,68,68,0.06)'; }}
                           onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
                           <span style={{ fontSize: isMobile ? 20 : 16, width: isMobile ? 28 : 20, textAlign: 'center' }}>→</span>
-                          Déconnexion
+                          Abmelden
                         </button>
                       </div>
                     </>

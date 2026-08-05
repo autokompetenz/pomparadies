@@ -58,7 +58,7 @@ export default function Footer() {
 
           </Link>
           <p style={{ fontSize: 13, color: text2, lineHeight: 1.7, marginTop: 16, maxWidth: 300 }}>
-            {lang === 'fr' ? 'Élevage familial de chiots de race, sélectionnés avec soin pour leur santé et leur tempérament.' : lang === 'en' ? 'Family kennel of purebred puppies, carefully selected for health and temperament.' : 'Familiale fokkerij van rashonden, zorgvuldig geselecteerd op gezondheid en temperament.'}
+            Familien-Zuchtbetrieb für Rassewelpen, sorgfältig ausgewählt auf Gesundheit und Temperament.
           </p>
         </div>
 

@@ -4,11 +4,11 @@ import { t } from '../utils/i18n';
 
 const links = [
   { to: '/admin', exact: true, icon: '⊞', label: 'Dashboard' },
-  { to: '/admin/reservations', icon: '📋', label: 'Réservations' },
-  { to: '/admin/puppies', icon: '🐶', label: 'Chiots' },
-  { to: '/admin/puppies/new', icon: '＋', label: 'Ajouter un chiot' },
-  { to: '/admin/clients', icon: '👥', label: 'Clients' },
-  { to: '/admin/waitlist', icon: '⏳', label: "Liste d'attente" },
+  { to: '/admin/reservations', icon: '📋', label: 'Reservierungen' },
+  { to: '/admin/puppies', icon: '🐶', label: 'Welpen' },
+  { to: '/admin/puppies/new', icon: '＋', label: 'Welpen hinzufügen' },
+  { to: '/admin/clients', icon: '👥', label: 'Kunden' },
+  { to: '/admin/waitlist', icon: '⏳', label: 'Warteliste' },
 ];
 
 export default function AdminSidebar({ mobileOpen = false, onClose }) {
@@ -50,8 +50,8 @@ export default function AdminSidebar({ mobileOpen = false, onClose }) {
             color: '#fff', margin: '0 auto 12px',
             boxShadow: '0 6px 18px rgba(201,118,46,0.28)',
           }}>A</div>
-          <p style={{ fontSize: 15, fontWeight: 800, color: 'var(--text)', letterSpacing: '0.01em' }}>Administrateur</p>
-          <p style={{ fontSize: 11, color: 'var(--primary)', marginTop: 4, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Éleveur</p>
+          <p style={{ fontSize: 15, fontWeight: 800, color: 'var(--text)', letterSpacing: '0.01em' }}>Administrator</p>
+          <p style={{ fontSize: 11, color: 'var(--primary)', marginTop: 4, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Züchter</p>
         </div>
 
         <nav style={{ background: 'var(--bg-card2)', border: '1px solid var(--border)', borderRadius: 12, padding: 6, boxShadow: 'var(--shadow-sm)' }}>
@@ -96,7 +96,7 @@ export default function AdminSidebar({ mobileOpen = false, onClose }) {
           onMouseOver={e => e.currentTarget.style.background = 'rgba(239,68,68,0.1)'}
           onMouseOut={e => e.currentTarget.style.background = 'rgba(239,68,68,0.06)'}>
           <span style={{ width: 22, textAlign: 'center' }}>→</span>
-          Déconnexion
+          Abmelden
         </button>
 
         <NavLink to="/" onClick={closeIfMobile}
@@ -107,7 +107,7 @@ export default function AdminSidebar({ mobileOpen = false, onClose }) {
           }}
           onMouseOver={e => { e.currentTarget.style.color = 'var(--primary)'; e.currentTarget.style.background = 'var(--primary-bg)'; }}
           onMouseOut={e => { e.currentTarget.style.color = 'var(--text-3)'; e.currentTarget.style.background = 'transparent'; }}>
-          ← Retour au site
+          ← Zurück zur Website
         </NavLink>
       </div>
     </aside>

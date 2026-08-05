@@ -22,13 +22,13 @@ export default function ClientBottomNav() {
   if (!isMobile || !pathMatchesNav(pathname)) return null;
 
   const items = [
-    { to: '/catalog', label: 'Chiots', icon: '🐶', match: (p) => p.startsWith('/catalog') },
+    { to: '/catalog', label: 'Welpen', icon: '🐶', match: (p) => p.startsWith('/catalog') },
 
-    { to: '/track', label: 'Suivi', icon: '📍', match: (p) => p === '/track' },
+    { to: '/track', label: 'Verfolgung', icon: '📍', match: (p) => p === '/track' },
   ];
 
   return (
-    <nav aria-label="Navigation mobile" style={{
+    <nav aria-label="Mobile Navigation" style={{
       position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 950,
       display: 'flex', justifyContent: 'space-around', alignItems: 'stretch',
       padding: '6px 4px max(8px, env(safe-area-inset-bottom))',

@@ -57,9 +57,7 @@ export default function Track() {
             {t('track_order', l)}
           </h1>
           <p style={{ fontSize: 16, color: 'var(--text-3)', maxWidth: 520 }}>
-            {l==='fr'?'Entrez votre numéro de réservation pour suivre l\u2019état de votre futur compagnon.':
-              l==='nl'?'Voer uw reserveringsnummer in om de status van uw toekomstige metgezel te volgen.':
-              l==='en'?'Enter your reservation number to track the status of your future companion.':'Entrez votre num?ro de r?servation pour suivre l’?tat de votre futur compagnon.'}
+            Geben Sie Ihre Reservierungsnummer ein, um den Status Ihres zukünftigen Begleiters zu verfolgen.
           </p>
         </div>
       </div>
@@ -84,10 +82,10 @@ export default function Track() {
             style={{ textAlign: 'center', padding: 40, background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12 }}>
             <div style={{ fontSize: 48, marginBottom: 16 }}>🔍</div>
             <h3 style={{ fontFamily: "'Outfit',sans-serif", fontWeight: 800, fontSize: 20, color: 'var(--text)', marginBottom: 8 }}>
-              {l==='fr'?'Réservation introuvable':l==='nl'?'Reservering niet gevonden':l==='en'?'Reservation not found':'Réservation introuvable'}
+              Reservierung nicht gefunden
             </h3>
             <p style={{ fontSize: 14, color: 'var(--text-3)' }}>
-              {l==='fr'?'Vérifiez le numéro et réessayez.':l==='nl'?'Controleer het nummer en probeer het opnieuw.':l==='en'?'Check the number and try again.':'V?rifiez le num?ro et r?essayez.'}
+              Überprüfen Sie die Nummer und versuchen Sie es erneut.
             </p>
           </motion.div>
         )}
@@ -98,7 +96,7 @@ export default function Track() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
                 <div>
                   <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--text-3)', marginBottom: 4 }}>
-                    {l==='fr'?'Réservation':l==='nl'?'Reservering':l==='en'?'Reservation':'Réservation'}
+                    Reservierung
                   </p>
                   <p style={{ fontFamily: "'Outfit',sans-serif", fontWeight: 800, fontSize: 20, color: 'var(--text)' }}>
                     {reservation.number}
@@ -135,7 +133,7 @@ export default function Track() {
                   <p style={{ fontWeight: 700, color: 'var(--text)' }}>{formatEuro((reservation.puppy?.price || 0) - (reservation.depositAmount || 0))}</p>
                 </div>
                 <div>
-                  <p style={{ fontSize: 11, color: 'var(--text-3)' }}>{l==='fr'?'Client':l==='nl'?'Klant':l==='en'?'Client':'Client'}</p>
+                  <p style={{ fontSize: 11, color: 'var(--text-3)' }}>{'Kunde'}</p>
                   <p style={{ fontWeight: 700, color: 'var(--text)' }}>{reservation.guestName}</p>
                 </div>
               </div>
@@ -144,7 +142,7 @@ export default function Track() {
             {/* Timeline */}
             <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12, padding: isMobile ? 20 : 28, boxShadow: 'var(--shadow-sm)' }}>
               <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: 20 }}>
-                {l==='fr'?'Suivi de la réservation':l==='nl'?'Reserveringsstatus':l==='en'?'Reservation status':'Suivi de la réservation'}
+                Reservierungsstatus
               </p>
 
               <div className="reservation-timeline">

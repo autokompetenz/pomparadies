@@ -17,7 +17,7 @@ export default function Catalog() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { lang } = useLangStore();
   const { isMobile, isTablet } = useBreakpoint();
-  const l = lang || 'fr';
+  const l = lang || 'de';
 
   const breed = searchParams.get('breed') || 'all';
   const search = searchParams.get('search') || '';
@@ -67,7 +67,7 @@ export default function Catalog() {
 
       <div style={{ background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:10, overflow:'hidden', boxShadow:'var(--shadow-sm)' }}>
         <p style={{ fontSize:10, fontWeight:800, letterSpacing:'0.3em', textTransform:'uppercase', color:'var(--primary)', padding:'14px 16px 8px' }}>
-          {l==='fr'?'Races':l==='nl'?'Rassen':l==='en'?'Breeds':'Races'}
+          Rassen
         </p>
         {[{ id:'all', label: t('all_breeds', l), count:total }, ...BREEDS.map(b => ({ id:b, label:b, count: puppies.filter(p => p.breed === b).length || 0 }))].map(({ id, label, count }) => (
           <button key={id} onClick={() => setFilter('breed', id === 'all' ? '' : id)}
@@ -93,10 +93,10 @@ export default function Catalog() {
       <div style={{ background:'var(--bg-card2)', borderBottom:'1px solid var(--border)', padding: isMobile ? '36px 4% 28px' : '52px 6% 36px' }}>
         <div style={{ maxWidth:1400, margin:'0 auto' }}>
           <h1 style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize:'clamp(30px,5vw,64px)', color:'var(--text)', letterSpacing:'-0.02em', marginBottom:10 }}>
-            {l==='fr'?'Nos chiots':l==='nl'?'Onze puppy’s':l==='en'?'Our puppies':'Nos chiots'}
+            Unsere Welpen
           </h1>
           <p style={{ fontSize:16, color:'var(--text-3)', maxWidth:560 }}>
-            {l==='fr'?'Découvrez nos chiots disponibles, tous élevés avec amour.':l==='nl'?'Ontdek onze beschikbare puppy’s, allemaal met liefde gefokt.':l==='en'?'Discover our available puppies, all raised with love.':'Découvrez nos chiots disponibles, tous élevés avec amour.'}
+            Entdecken Sie unsere verfügbaren Welpen, alle mit Liebe aufgezogen.
           </p>
         </div>
       </div>
@@ -120,7 +120,7 @@ export default function Catalog() {
           <div style={{ display:'flex', gap:10, marginBottom:16 }}>
             <button onClick={() => setDrawerOpen(true)}
               style={{ flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:8, background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:8, padding:'11px 14px', color:'var(--text)', fontFamily:"'Outfit',sans-serif", fontSize:14, fontWeight:700, cursor:'pointer', boxShadow:'var(--shadow-sm)' }}>
-              ☰ {t('filters', l)} {breed !== 'all' && `à ${breed}`}
+              ☰ {t('filters', l)} {breed !== 'all' && breed}
             </button>
             <SortSelect />
           </div>
@@ -153,7 +153,7 @@ export default function Catalog() {
                 <div style={{ fontSize:64, marginBottom:16 }}>🔍</div>
                 <h3 style={{ fontFamily:"'Outfit',sans-serif", fontWeight:800, fontSize:24, color:'var(--text)', marginBottom:10 }}>{t('no_results', l)}</h3>
                 <p style={{ fontSize:15, color:'var(--text-3)', marginBottom:24 }}>
-                  {l==='fr'?'Essayez une autre race ou inscrivez-vous sur notre liste d’attente.':l==='nl'?'Probeer een ander ras of meld u aan op onze wachtlijst.':l==='en'?'Try another breed or sign up for our waitlist.':'Essayez une autre race ou inscrivez-vous sur notre liste d’attente.'}
+                  Versuchen Sie eine andere Rasse oder melden Sie sich auf unserer Warteliste an.
                 </p>
                 <button onClick={resetAll} className="btn-primary">{t('reset', l)}</button>
               </div>

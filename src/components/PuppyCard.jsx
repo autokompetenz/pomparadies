@@ -35,7 +35,7 @@ export default function PuppyCard({ puppy, index = 0 }) {
 
           <div style={{ position: 'absolute', top: 12, left: 12, display: 'flex', gap: 7 }}>
             {puppy.featured && (
-              <span style={{ background: '#C9762E', color: '#fff', fontSize: 9, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 3 }}>★ Nouveau</span>
+              <span style={{ background: '#C9762E', color: '#fff', fontSize: 9, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 3 }}>★ Neu</span>
             )}
           </div>
 

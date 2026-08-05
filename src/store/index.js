@@ -18,14 +18,10 @@ export const useThemeStore = create((set) => ({
   },
 }));
 
-// ─── Language Store ─────────────────────────────────────────
-export const useLangStore = create((set) => ({
-  lang: localStorage.getItem('sp_lang') || 'fr',
-  setLang: (lang) => {
-    localStorage.setItem('sp_lang', lang);
-    document.documentElement.lang = lang;
-    set({ lang });
-  },
+// ─── Language Store (German only) ─────────────────────────────
+export const useLangStore = create(() => ({
+  lang: 'de',
+  setLang: () => {},
 }));
 
 // ─── Admin Auth Store ────────────────────────────────────────

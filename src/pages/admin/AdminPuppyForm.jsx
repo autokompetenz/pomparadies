@@ -86,7 +86,7 @@ export default function AdminPuppyForm() {
     }
   }, [id, isEdit]);
 
-  // Auto-génération puce + pedigree dès que la race et la date de naissance sont choisies
+  // Auto-Generierung von Mikrochip + Ahnentafel sobald Rasse und Geburtsdatum gewählt sind
   useEffect(() => {
     if (!puppiesLoaded) return;
     const { breed, birthDate } = form;
@@ -137,17 +137,17 @@ export default function AdminPuppyForm() {
   const handleGenerateIds = () => {
     const { breed, birthDate } = form;
     if (!breed || !birthDate) {
-      addToast("Choisissez d'abord une race et une date de naissance", 'error');
+      addToast("Wählen Sie zuerst eine Rasse und ein Geburtsdatum", 'error');
       return;
     }
     const next = nextPuppyIdentifiers(puppies, breed, birthDate, isEdit ? Number(id) : undefined);
     if (!next) {
-      addToast('Génération impossible', 'error');
+      addToast('Generierung nicht möglich', 'error');
       return;
     }
     setForm(prev => ({ ...prev, microchipNumber: next.microchipNumber, pedigreeDocUrl: next.pedigreeDocUrl }));
     lastGenRef.current = { microchip: next.microchipNumber, pedigree: next.pedigreeDocUrl };
-    addToast('Puce électronique & pedigree générés', 'success');
+    addToast('Mikrochip & Ahnentafel generiert', 'success');
   };
 
   const handleSubmit = async (e) => {
@@ -158,83 +158,83 @@ export default function AdminPuppyForm() {
       Object.entries(form).forEach(([k, v]) => { if (v !== undefined && v !== null) formData.append(k, v); });
       imageFiles.forEach(file => formData.append('images', file));
       existingImages.forEach(img => formData.append('existingImages', img.url));
-      if (isEdit) { await adminAPI.updatePuppy(id, formData); navigate('/admin/puppies', { replace: true, state: { successMessage: 'Chiot mis à jour' } }); }
-      else { await adminAPI.createPuppy(formData); navigate('/admin/puppies', { replace: true, state: { successMessage: 'Chiot créé' } }); }
-    } catch (err) { addToast(err.response?.data?.error || err.message || 'Erreur', 'error'); }
+      if (isEdit) { await adminAPI.updatePuppy(id, formData); navigate('/admin/puppies', { replace: true, state: { successMessage: 'Welpe aktualisiert' } }); }
+      else { await adminAPI.createPuppy(formData); navigate('/admin/puppies', { replace: true, state: { successMessage: 'Welpe erstellt' } }); }
+    } catch (err) { addToast(err.response?.data?.error || err.message || 'Fehler', 'error'); }
     finally { setSaving(false); }
   };
 
   return (
     <div style={{ padding:'clamp(24px,5vw,48px) clamp(16px,4vw,44px) 60px', minHeight:'100vh', background:'var(--bg)' }}>
       <div style={{ marginBottom:32 }}>
-        <div className="section-eyebrow">{isEdit ? 'Modifier' : 'Ajouter'}</div>
+        <div className="section-eyebrow">{isEdit ? 'Bearbeiten' : 'Hinzufügen'}</div>
         <h1 style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize:'clamp(28px,4vw,44px)', color:'var(--text)', letterSpacing:'-0.02em' }}>
-          {isEdit ? 'Modifier le chiot' : 'Nouveau chiot'}
+          {isEdit ? 'Welpe bearbeiten' : 'Neuer Welpe'}
         </h1>
       </div>
 
       <form onSubmit={handleSubmit} style={{ maxWidth: 780 }}>
-        <Section title="Informations principales">
+        <Section title="Hauptinformationen">
           <div style={{ display:'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap:16, marginBottom:16 }}>
-            <Field label="Nom *" field="name" placeholder="Luna" value={form.name} onChange={set("name")} />
-            <Field label="Race *" field="breed" opts={BREEDS} value={form.breed} onChange={set("breed")} />
-            <Field label="Sexe" field="sex" opts={['Male','Female']} value={form.sex} onChange={set("sex")} />
-            <Field label="Date de naissance" field="birthDate" type="date" value={form.birthDate} onChange={set("birthDate")} />
-            <Field label="Prix (€) *" field="price" type="number" placeholder="1500" value={form.price} onChange={set("price")} />
+            <Field label="Name *" field="name" placeholder="Luna" value={form.name} onChange={set("name")} />
+            <Field label="Rasse *" field="breed" opts={BREEDS} value={form.breed} onChange={set("breed")} />
+            <Field label="Geschlecht" field="sex" opts={['Male','Female']} value={form.sex} onChange={set("sex")} />
+            <Field label="Geburtsdatum" field="birthDate" type="date" value={form.birthDate} onChange={set("birthDate")} />
+            <Field label="Preis (€) *" field="price" type="number" placeholder="1500" value={form.price} onChange={set("price")} />
           </div>
-          <Field label="Description" field="description" rows={4} placeholder="Description détaillée du chiot..." value={form.description} onChange={set("description")} />
+          <Field label="Beschreibung" field="description" rows={4} placeholder="Detaillierte Beschreibung des Welpen..." value={form.description} onChange={set("description")} />
         </Section>
 
-        <Section title="Parents">
+        <Section title="Eltern">
           <div className={isMobile ? 'admin-grid-2' : ''} style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16 }}>
-            <Field label="Nom de la mère" field="parentMotherName" placeholder="Bella" value={form.parentMotherName} onChange={set("parentMotherName")} />
-            <Field label="Nom du père" field="parentFatherName" placeholder="Max" value={form.parentFatherName} onChange={set("parentFatherName")} />
+            <Field label="Name der Mutter" field="parentMotherName" placeholder="Bella" value={form.parentMotherName} onChange={set("parentMotherName")} />
+            <Field label="Name des Vaters" field="parentFatherName" placeholder="Max" value={form.parentFatherName} onChange={set("parentFatherName")} />
           </div>
         </Section>
 
-        <Section title="Santé">
+        <Section title="Gesundheit">
           <div className={isMobile ? 'admin-grid-2' : ''} style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16 }}>
-            <Field label="Pedigree" field="pedigreeDocUrl" placeholder="LOSH-LAB-2026-0412" value={form.pedigreeDocUrl} onChange={set("pedigreeDocUrl")} />
-            <Field label="Puce électronique" field="microchipNumber" placeholder="985 1410 0245 101" value={form.microchipNumber} onChange={set("microchipNumber")} />
-            <Field label="Statut vaccination" field="vaccinationStatus" placeholder="À jour" value={form.vaccinationStatus} onChange={set("vaccinationStatus")} />
-            <Field label="Statut vermifuge" field="dewormingStatus" placeholder="À jour" value={form.dewormingStatus} onChange={set("dewormingStatus")} />
+            <Field label="Ahnentafel" field="pedigreeDocUrl" placeholder="LOSH-LAB-2026-0412" value={form.pedigreeDocUrl} onChange={set("pedigreeDocUrl")} />
+            <Field label="Mikrochip" field="microchipNumber" placeholder="985 1410 0245 101" value={form.microchipNumber} onChange={set("microchipNumber")} />
+            <Field label="Impfstatus" field="vaccinationStatus" placeholder="Aktuell" value={form.vaccinationStatus} onChange={set("vaccinationStatus")} />
+            <Field label="Entwurmungsstatus" field="dewormingStatus" placeholder="Aktuell" value={form.dewormingStatus} onChange={set("dewormingStatus")} />
           </div>
           <button type="button" onClick={handleGenerateIds} className="btn-ghost" style={{ marginTop:16, padding:'12px 20px', fontSize:14, borderRadius:10 }}>
-            ✨ Générer puce &amp; pedigree (auto)
+            ✨ Mikrochip &amp; Ahnentafel generieren (auto)
           </button>
         </Section>
 
-        <Section title="Images">
+        <Section title="Bilder">
           <input type="file" accept="image/*" multiple onChange={handleImageChange} style={{ display:'none' }} id="images-input" />
           <label htmlFor="images-input"
             style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:12, padding:'16px 20px', background:'var(--primary-bg)', border:'2px dashed var(--border-2)', borderRadius:12, cursor:'pointer', fontSize:14, color:'var(--text-2)', fontWeight:600, transition:'all 0.25s' }}
             onMouseOver={e => { e.currentTarget.style.borderColor='var(--primary)'; e.currentTarget.style.background='var(--bg-card2)'; e.currentTarget.style.color='var(--text)'; }}
             onMouseOut={e => { e.currentTarget.style.borderColor='var(--border-2)'; e.currentTarget.style.background='var(--primary-bg)'; e.currentTarget.style.color='var(--text-2)'; }}>
-            📷 {previews.length + existingImages.length > 0 ? `${previews.length + existingImages.length} / 5 images` : 'Choisir des images'}
+            📷 {previews.length + existingImages.length > 0 ? `${previews.length + existingImages.length} / 5 Bilder` : 'Bilder auswählen'}
           </label>
         </Section>
 
         {(previews.length > 0 || existingImages.length > 0) && (
           <div style={{ marginBottom:24 }}>
-            <p style={{ fontSize:11, fontWeight:700, letterSpacing:'0.16em', textTransform:'uppercase', color:'var(--text-3)', marginBottom:12 }}>Aperçu ({previews.length + existingImages.length})</p>
+            <p style={{ fontSize:11, fontWeight:700, letterSpacing:'0.16em', textTransform:'uppercase', color:'var(--text-3)', marginBottom:12 }}>Vorschau ({previews.length + existingImages.length})</p>
             <div className={isMobile ? 'admin-img-grid' : ''} style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:8 }}>
               {[...existingImages, ...previews].map((img, index) => (
                 <div key={img.id} style={{ position:'relative', borderRadius:12, overflow:'hidden', aspectRatio:'4/3' }}>
-                  <img src={img.url} alt={`Aperçu ${index + 1}`} style={{ width:'100%', height:'100%', objectFit:'cover', border:'1px solid var(--border)' }} />
+                  <img src={img.url} alt={`Vorschau ${index + 1}`} style={{ width:'100%', height:'100%', objectFit:'cover', border:'1px solid var(--border)' }} />
                   <button type="button" onClick={() => removeImage(img.id)}
                     style={{ position:'absolute', top:4, right:4, background:'rgba(0,0,0,0.8)', color:'#fff', border:'none', borderRadius:'50%', width: isMobile ? 32 : 24, height: isMobile ? 32 : 24, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', fontSize: isMobile ? 12 : 10 }}>
                     ✕
                   </button>
-                  {index === 0 && <span style={{ position:'absolute', bottom:4, left:4, fontSize:9, fontWeight:800, background:'var(--primary)', color:'#fff', padding:'2px 6px', borderRadius:3 }}>Principale</span>}
+                  {index === 0 && <span style={{ position:'absolute', bottom:4, left:4, fontSize:9, fontWeight:800, background:'var(--primary)', color:'#fff', padding:'2px 6px', borderRadius:3 }}>Hauptbild</span>}
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        <Section title="Options">
+        <Section title="Optionen">
           <div className={isMobile ? 'admin-flex-wrap' : ''} style={{ display:'flex', gap:28, flexWrap:'wrap' }}>
-            {[['featured','Chiot mis en avant (★ Nouveau)'],['isActive','Actif (visible en catalogue)']].map(([f,l]) => (
+            {[['featured','Hervorgehobener Welpe (★ Neu)'],['isActive','Aktiv (im Katalog sichtbar)']].map(([f,l]) => (
               <label key={f} style={{ display:'flex', alignItems:'center', gap:12, cursor:'pointer', padding:'12px 16px', borderRadius:10, background:'var(--bg-card2)', border:'1px solid var(--border)' }}>
                 <input type="checkbox" checked={Boolean(form[f])} onChange={set(f)} style={{ accentColor:'#C9762E', width:20, height:20 }} />
                 <span style={{ fontSize:14, color:'var(--text-2)', fontWeight:600 }}>{l}</span>
@@ -245,10 +245,10 @@ export default function AdminPuppyForm() {
 
         <div style={{ display:'flex', gap:16, marginTop:8 }}>
           <button type="submit" disabled={saving} className="btn-primary" style={{ fontSize:15, padding:'18px 36px', borderRadius:10 }}>
-            {saving ? 'Enregistrement...' : isEdit ? '✓ Mettre à jour' : '+ Créer le chiot'}
+            {saving ? 'Wird gespeichert...' : isEdit ? '✓ Aktualisieren' : '+ Welpen erstellen'}
           </button>
           <button type="button" onClick={() => navigate('/admin/puppies')} className="btn-ghost" style={{ fontSize:15, padding:'18px 36px', borderRadius:10 }}>
-            Annuler
+            Abbrechen
           </button>
         </div>
       </form>

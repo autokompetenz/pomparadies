@@ -9,9 +9,7 @@ import { Loader } from '../components/UI';
 import { t } from '../utils/i18n';
 
 const INFO_TITLE = {
-  fr: 'À propos de ce chiot',
-  nl: 'Over deze puppy',
-  en: 'About this puppy',
+  de: 'Über diesen Welpen',
 };
 
 export default function PuppyDetails() {
@@ -52,13 +50,13 @@ export default function PuppyDetails() {
 
   if (loading) return (
     <div style={{ paddingTop: 100, background: C.bg, minHeight: '100vh' }}>
-      <Loader text="Chargement..." />
+      <Loader text="Wird geladen..." />
     </div>
   );
   if (!puppy) return null;
 
   const images = [puppy.imageUrl, puppy.imageUrl2, puppy.imageUrl3, puppy.imageUrl4, puppy.imageUrl5].filter(Boolean);
-  const l = lang || 'fr';
+  const l = lang || 'de';
   const isAvailable = puppy.status !== 'sold';
 
   return (
@@ -68,13 +66,13 @@ export default function PuppyDetails() {
           <Link to="/" style={{ color: C.text3, textDecoration: 'none', transition: 'color 0.2s' }}
             onMouseOver={e => e.target.style.color = C.primary}
             onMouseOut={e => e.target.style.color = C.text3}>
-            {l==='fr'?'Accueil':l==='nl'?'Home':l==='en'?'Home':'Accueil'}
+            Startseite
           </Link>
           <span style={{ margin: '0 10px', opacity: 0.3 }}>▸</span>
           <Link to="/catalog" style={{ color: C.text3, textDecoration: 'none', transition: 'color 0.2s' }}
             onMouseOver={e => e.target.style.color = C.primary}
             onMouseOut={e => e.target.style.color = C.text3}>
-            {l==='fr'?'Catalogue':l==='nl'?'Catalogus':l==='en'?'Catalog':'Catalogue'}
+            Katalog
           </Link>
           <span style={{ margin: '0 10px', opacity: 0.3 }}>▸</span>
           <span style={{ color: C.text2 }}>{puppy.name}</span>
@@ -101,7 +99,7 @@ export default function PuppyDetails() {
                     style={{ aspectRatio: '4/3', borderRadius: 10, overflow: 'hidden', border: `2.5px solid ${activeImg === i ? C.primary : C.border}`, opacity: activeImg === i ? 1 : 0.6, cursor: 'pointer', transition: 'all 0.25s ease', padding: 0, background: C.card, transform: activeImg === i ? 'scale(1.02)' : 'scale(1)' }}
                     onMouseOver={e => { if (activeImg !== i) { e.currentTarget.style.opacity='0.9'; e.currentTarget.style.transform='scale(1.05)'; e.currentTarget.style.borderColor='rgba(201,118,46,0.4)'; }}}
                     onMouseOut={e => { if (activeImg !== i) { e.currentTarget.style.opacity='0.6'; e.currentTarget.style.transform='scale(1)'; e.currentTarget.style.borderColor=C.border; }}}>
-                    <img src={img} alt={`Vue ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={img} alt={`Ansicht ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </button>
                 ))}
               </div>
@@ -127,7 +125,7 @@ export default function PuppyDetails() {
 
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 12, marginBottom: 24 }}>
               {[
-                { label: l==='fr'?'Sexe':l==='nl'?'Geslacht':l==='en'?'Gender':'Sexe', value: puppy.sex === 'Male' ? t('male', l) : t('female', l), icon: puppy.sex === 'Male' ? '♂' : '♀' },
+                { label: 'Geschlecht', value: puppy.sex === 'Male' ? t('male', l) : t('female', l), icon: puppy.sex === 'Male' ? '♂' : '♀' },
                 { label: t('birth_date', l), value: puppy.birthDate ? formatDate(puppy.birthDate) + ' (' + getAgeString(puppy.birthDate, l) + ')' : 'N/A', icon: '📅' },
 
               ].map(({ label, value, icon }) => (
@@ -144,7 +142,7 @@ export default function PuppyDetails() {
             {puppy.description && (
               <div style={{ marginBottom: 28 }}>
                 <h3 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: isMobile ? 20 : 24, color: C.text, letterSpacing: '-0.02em', marginBottom: 14, lineHeight: 1.2 }}>
-                  {INFO_TITLE[l] || INFO_TITLE.fr}
+                  {INFO_TITLE[l] || INFO_TITLE.de}
                 </h3>
                 <p style={{ fontSize: 15, color: C.text2, lineHeight: 1.75, borderLeft: '3px solid rgba(201,118,46,0.4)', paddingLeft: 18 }}>
                   {puppy.description}
@@ -199,7 +197,7 @@ export default function PuppyDetails() {
                     addToast(t('reservation_confirm', l), 'success');
                     navigate(`/track/${res.data.reservationNumber}`);
                   } catch (err) {
-                    addToast(err.response?.data?.error || 'Erreur', 'error');
+                    addToast(err.response?.data?.error || 'Fehler', 'error');
                   } finally { setReserving(false); }
                 }} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   <input name="name" required placeholder={t('name_label', l)} className="input-luxury" />
@@ -282,20 +280,20 @@ export default function PuppyDetails() {
           style={{ marginTop: isMobile ? 48 : 72 }}>
           <div style={{ marginBottom: isMobile ? 24 : 32 }}>
             <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.3em', textTransform: 'uppercase', color: C.primary }}>
-              {l==='fr'?'Santé & Origine':l==='nl'?'Gezondheid & Herkomst':l==='en'?'Health & Origin':'Santé & Origine'}
+              Gesundheit & Herkunft
             </span>
             <h2 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 900, fontSize: isMobile ? 28 : 42, color: C.text, letterSpacing: '-0.02em', marginTop: 8 }}>
-              {l==='fr'?'Tous nos chiots sont en parfaite santé':l==='nl'?'Al onze puppy’s zijn in perfecte gezondheid':l==='en'?'All our puppies are in perfect health':'Tous nos chiots sont en parfaite santé'}
+              Alle unsere Welpen sind bei bester Gesundheit
             </h2>
           </div>
 
           <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: isMobile ? 24 : 32, marginBottom: 24, boxShadow: C.shadow }}>
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: 16, marginBottom: 24 }}>
               {[
-                { icon: '📜', title: t('pedigree', l), value: puppy.pedigreeDocUrl ? String(puppy.pedigreeDocUrl).split('/').pop() : (l==='fr'?'Inclus LOSH':l==='nl'?'Inclusief LOSH':l==='en'?'LOSH included':'Inclus LOSH') },
-                { icon: '📋', title: t('vaccination', l), desc: puppy.vaccinationStatus || l==='fr'?'Vaccins à jour (CHPPiLR)':l==='nl'?'Vaccinaties up-to-date (CHPPiLR)':l==='en'?'Up-to-date vaccines (CHPPiLR)':'Vaccins à jour (CHPPiLR)' },
-                { icon: '🐶', title: t('deworming', l), desc: puppy.dewormingStatus || l==='fr'?'Vermifuge régulier':l==='nl'?'Regelmatige ontworming':l==='en'?'Regular deworming':'Vermifuge régulier' },
-                { icon: '💜', title: t('microchip', l), value: puppy.microchipNumber || l==='fr'?'Puce électronique incluse':l==='nl'?'Microchip inbegrepen':l==='en'?'Microchip included':'Puce électronique incluse' },
+                { icon: '📜', title: t('pedigree', l), value: puppy.pedigreeDocUrl ? String(puppy.pedigreeDocUrl).split('/').pop() : 'LOSH inklusive' },
+                { icon: '📋', title: t('vaccination', l), desc: puppy.vaccinationStatus || 'Impfungen aktuell (CHPPiLR)' },
+                { icon: '🐶', title: t('deworming', l), desc: puppy.dewormingStatus || 'Regelmäßige Entwurmung' },
+                { icon: '💜', title: t('microchip', l), value: puppy.microchipNumber || 'Mikrochip inklusive' },
               ].map((item, i) => (
                 <div key={i} style={{ display: 'flex', gap: 16, padding: '20px', background: C.card2, borderRadius: 12 }}>
                   <div style={{ width: 52, height: 52, borderRadius: 12, background: 'linear-gradient(135deg,rgba(201,118,46,0.15),rgba(201,118,46,0.05))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, flexShrink: 0 }}>
@@ -332,14 +330,10 @@ export default function PuppyDetails() {
             </div>
             <div>
               <h3 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: isMobile ? 18 : 22, color: C.text, marginBottom: 8 }}>
-                {l==='fr'?'Garantie de remboursement':l==='nl'?'Terugbetalingsgarantie':l==='en'?'Refund guarantee':'Garantie de remboursement'}
+                Geld-zurück-Garantie
               </h3>
               <p style={{ fontSize: 15, color: C.text2, lineHeight: 1.7, margin: 0 }}>
-                {l==='fr'
-                  ? 'En cas de désistement, le montant intégralement payé vous sera remboursé dans un délai de 7 jours ouvrables.'
-                  : l==='nl'
-                  ? 'Bij annulering wordt het volledige bedrag binnen 7 werkdagen aan u terugbetaald.'
-                  : 'In case of cancellation, the full amount paid will be refunded to you within 7 business days.'}
+                Bei Stornierung wird der vollständig gezahlte Betrag Ihnen innerhalb von 7 Werktagen erstattet.
               </p>
             </div>
           </div>

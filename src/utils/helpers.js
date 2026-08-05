@@ -4,34 +4,34 @@ export const formatEuro = (amount) => {
 };
 
 export const BREEDS = [
-  'Jack Russell Terrier', 'Braque Allemand', 'Dogue Allemand', 'Dobermann', 'Caniche',
-  'Drahthaar', 'Teckel', 'Boxer', 'Spitz Allemand', 'Bouledogue Français', 'Labrador Retriever',
-  'Leonberg', 'Kangal', 'Chihuahua', 'Yorkshire Terrier', 'Berger Allemand', 'Berger Malinois',
-  'Bichon Maltais', 'Shih Tzu', 'Golden Retriever', 'Canis Vulgaris',
+  'Jack Russell Terrier', 'Deutsch Kurzhaar', 'Deutsche Dogge', 'Dobermann', 'Pudel',
+  'Deutsch Drahthaar', 'Teckel', 'Boxer', 'Deutscher Spitz', 'Französische Bulldogge', 'Labrador Retriever',
+  'Leonberger', 'Kangal', 'Chihuahua', 'Yorkshire Terrier', 'Deutscher Schäferhund', 'Belgischer Malinois',
+  'Malteser', 'Shih Tzu', 'Golden Retriever', 'Canis Vulgaris',
 ];
 
 export const BREED_ID_CODES = {
-  'Jack Russell Terrier': { micro: 234, code: 'JR',  prefix: 'LOSH' },
-  'Braque Allemand':      { micro: 235, code: 'BRA', prefix: 'LOSH' },
-  'Dogue Allemand':       { micro: 236, code: 'DOG', prefix: 'LOSH' },
-  'Dobermann':            { micro: 237, code: 'DOB', prefix: 'LOSH' },
-  'Caniche':              { micro: 238, code: 'CAN', prefix: 'LOSH' },
-  'Drahthaar':            { micro: 239, code: 'DRA', prefix: 'LOSH' },
-  'Teckel':               { micro: 240, code: 'TEC', prefix: 'LOSH' },
-  'Boxer':                { micro: 242, code: 'BOX', prefix: 'LOSH' },
-  'Spitz Allemand':       { micro: 243, code: 'SPI', prefix: 'LOSH' },
-  'Bouledogue Français':  { micro: 244, code: 'BOU', prefix: 'LOSH' },
-  'Labrador Retriever':   { micro: 245, code: 'LAB', prefix: 'LOSH' },
-  'Leonberg':             { micro: 246, code: 'LEO', prefix: 'LOSH' },
-  'Kangal':               { micro: 248, code: 'KAN', prefix: 'LOSH' },
-  'Chihuahua':            { micro: 250, code: 'CHI', prefix: 'LOSH' },
-  'Yorkshire Terrier':    { micro: 260, code: 'YOR', prefix: 'LOSH' },
-  'Berger Allemand':      { micro: 270, code: 'BA',  prefix: 'LOSH' },
-  'Berger Malinois':      { micro: 275, code: 'BM',  prefix: 'LOSH' },
-  'Bichon Maltais':       { micro: 280, code: 'BIC', prefix: 'LOSH' },
-  'Shih Tzu':             { micro: 290, code: 'SHI', prefix: 'LOSH' },
-  'Golden Retriever':     { micro: 300, code: 'GR',  prefix: 'LOSH' },
-  'Canis Vulgaris':       { micro: 310, code: 'CV',  prefix: 'ELEV' },
+  'Jack Russell Terrier':  { micro: 234, code: 'JR',  prefix: 'LOSH' },
+  'Deutsch Kurzhaar':      { micro: 235, code: 'BRA', prefix: 'LOSH' },
+  'Deutsche Dogge':        { micro: 236, code: 'DOG', prefix: 'LOSH' },
+  'Dobermann':             { micro: 237, code: 'DOB', prefix: 'LOSH' },
+  'Pudel':                 { micro: 238, code: 'CAN', prefix: 'LOSH' },
+  'Deutsch Drahthaar':     { micro: 239, code: 'DRA', prefix: 'LOSH' },
+  'Teckel':                { micro: 240, code: 'TEC', prefix: 'LOSH' },
+  'Boxer':                 { micro: 242, code: 'BOX', prefix: 'LOSH' },
+  'Deutscher Spitz':       { micro: 243, code: 'SPI', prefix: 'LOSH' },
+  'Französische Bulldogge':{ micro: 244, code: 'BOU', prefix: 'LOSH' },
+  'Labrador Retriever':    { micro: 245, code: 'LAB', prefix: 'LOSH' },
+  'Leonberger':            { micro: 246, code: 'LEO', prefix: 'LOSH' },
+  'Kangal':                { micro: 248, code: 'KAN', prefix: 'LOSH' },
+  'Chihuahua':             { micro: 250, code: 'CHI', prefix: 'LOSH' },
+  'Yorkshire Terrier':     { micro: 260, code: 'YOR', prefix: 'LOSH' },
+  'Deutscher Schäferhund': { micro: 270, code: 'BA',  prefix: 'LOSH' },
+  'Belgischer Malinois':   { micro: 275, code: 'BM',  prefix: 'LOSH' },
+  'Malteser':              { micro: 280, code: 'BIC', prefix: 'LOSH' },
+  'Shih Tzu':              { micro: 290, code: 'SHI', prefix: 'LOSH' },
+  'Golden Retriever':      { micro: 300, code: 'GR',  prefix: 'LOSH' },
+  'Canis Vulgaris':        { micro: 310, code: 'CV',  prefix: 'ELEV' },
 };
 
 export function sameDay(a, b) {
@@ -75,36 +75,36 @@ export function timeAgo(date) {
   const d = new Date(date);
   const now = new Date();
   const diff = Math.floor((now - d) / 1000);
-  if (diff < 60) return "À l'instant";
-  if (diff < 3600) return `Il y a ${Math.floor(diff / 60)} min`;
-  if (diff < 86400) return `Il y a ${Math.floor(diff / 3600)} h`;
-  return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
+  if (diff < 60) return "Gerade eben";
+  if (diff < 3600) return `Vor ${Math.floor(diff / 60)} Min`;
+  if (diff < 86400) return `Vor ${Math.floor(diff / 3600)} Std`;
+  return d.toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 export function formatDate(date) {
-  return new Date(date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+  return new Date(date).toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
 export function getAgeString(birthDate, lang = 'fr') {
   const now = new Date();
   const birth = new Date(birthDate);
   const weeks = Math.floor((now - birth) / (7 * 24 * 60 * 60 * 1000));
-  return `${weeks} ${lang === 'fr' ? 'semaines' : lang === 'nl' ? 'weken' : 'weeks'}`;
+  return `${weeks} ${lang === 'de' || !lang ? 'Wochen' : 'Wochen'}`;
 }
 
 export const STATUS_LABELS = {
-  pending: 'Demande reçue',
-  deposit_confirmed: 'Acompte confirmé',
-  preparing: 'En préparation',
-  ready: 'Prêt(e) à partir',
-  delivered: 'Remis(e) à la famille',
-  cancelled: 'Annulée',
+  pending: 'Anfrage erhalten',
+  deposit_confirmed: 'Anzahlung bestätigt',
+  preparing: 'In Vorbereitung',
+  ready: 'Bereit zum Abtransport',
+  delivered: 'An die Familie übergeben',
+  cancelled: 'Storniert',
 };
 
 export const PUPPY_STATUS_LABELS = {
-  available: 'Disponible',
-  reserved: 'Réservé',
-  sold: 'Vendu',
+  available: 'Verfügbar',
+  reserved: 'Reserviert',
+  sold: 'Verkauft',
 };
 
 export function getInitials(name) {

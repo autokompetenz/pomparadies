@@ -5,6 +5,8 @@ import { useToastStore } from '../../store';
 import { formatEuro } from '../../utils/helpers';
 import { Loader } from '../../components/UI';
 
+const PUPPY_STATUS_LABELS = { available: 'Verfügbar', reserved: 'Reserviert', sold: 'Verkauft' };
+
 export default function AdminPuppies() {
   const [puppies, setPuppies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,22 +36,22 @@ export default function AdminPuppies() {
     try {
       const { data } = await adminAPI.togglePuppy(puppy.id);
       setPuppies(prev => prev.map(p => p.id === puppy.id ? data.puppy : p));
-      addToast(data.message || 'Statut mis à jour', 'success');
-    } catch { addToast('Erreur', 'error'); }
+      addToast(data.message || 'Status aktualisiert', 'success');
+    } catch { addToast('Fehler', 'error'); }
   };
 
   const handleDelete = async (puppy) => {
-    if (!window.confirm(`Supprimer définitivement ${puppy.name} ? Cette action est irréversible.`)) return;
+    if (!window.confirm(`${puppy.name} endgültig löschen? Diese Aktion ist unumkehrbar.`)) return;
     try {
       await adminAPI.deletePuppy(puppy.id);
       setPuppies(prev => prev.filter(p => p.id !== puppy.id));
-      addToast('Chiot supprimé', 'success');
+      addToast('Welpe gelöscht', 'success');
     } catch (err) {
-      addToast(err.response?.data?.error || 'Suppression impossible', 'error');
+      addToast(err.response?.data?.error || 'Löschen nicht möglich', 'error');
     }
   };
 
-  if (loading) return <div style={{ padding: 40 }}><Loader text="Chargement des chiots..." /></div>;
+  if (loading) return <div style={{ padding: 40 }}><Loader text="Welpen werden geladen..." /></div>;
 
   return (
     <div style={{ padding: 'clamp(24px,5vw,48px) clamp(16px,4vw,44px) 60px', minHeight: '100vh', background: 'var(--bg)' }}>
@@ -57,27 +59,27 @@ export default function AdminPuppies() {
         <div>
           <div className="section-eyebrow">Inventaire</div>
           <h1 style={{ fontFamily: "'Outfit',sans-serif", fontWeight: 900, fontSize: 'clamp(28px,4vw,48px)', color: 'var(--text)', letterSpacing: '-0.02em' }}>
-            Chiots <span style={{ color: 'var(--text-3)', fontSize: '0.55em', fontWeight: 600 }}>({puppies.length})</span>
+            Welpen <span style={{ color: 'var(--text-3)', fontSize: '0.55em', fontWeight: 600 }}>({puppies.length})</span>
           </h1>
         </div>
         <Link to="/admin/puppies/new" className="btn-primary" style={{ fontSize: 14, padding: '14px 24px', alignSelf: 'flex-end' }}>
-          + Ajouter un chiot
+          + Welpe hinzufügen
         </Link>
       </div>
 
       {loadError && (
         <div style={{ marginBottom: 24, padding: 20, borderRadius: 12, background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)' }}>
-          <p style={{ color: '#EF4444', fontWeight: 600, marginBottom: 12 }}>Impossible de charger les chiots.</p>
-          <button type="button" className="btn-ghost" onClick={load}>Réessayer</button>
+          <p style={{ color: '#EF4444', fontWeight: 600, marginBottom: 12 }}>Welpen konnten nicht geladen werden.</p>
+          <button type="button" className="btn-ghost" onClick={load}>Erneut versuchen</button>
         </div>
       )}
 
       {puppies.length === 0 && !loadError ? (
         <div style={{ textAlign: 'center', padding: '60px 24px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12 }}>
           <p style={{ fontSize: 48, marginBottom: 16 }}>🐶</p>
-          <p style={{ fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>Aucun chiot</p>
-          <p style={{ color: 'var(--text-3)', marginBottom: 24 }}>Ajoutez votre premier chiot au catalogue.</p>
-          <Link to="/admin/puppies/new" className="btn-primary">+ Ajouter un chiot</Link>
+          <p style={{ fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>Keine Welpen</p>
+          <p style={{ color: 'var(--text-3)', marginBottom: 24 }}>Fügen Sie Ihren ersten Welpen zum Katalog hinzu.</p>
+          <Link to="/admin/puppies/new" className="btn-primary">+ Welpe hinzufügen</Link>
         </div>
       ) : (
         <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden', boxShadow: 'var(--shadow-sm)' }}>
@@ -85,7 +87,7 @@ export default function AdminPuppies() {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--border)' }}>
-                  {['Photo', 'Nom', 'Race', 'Prix', 'Statut', 'Actif', 'Actions'].map(h => (
+                  {['Foto', 'Name', 'Rasse', 'Preis', 'Status', 'Aktiv', 'Aktionen'].map(h => (
                     <th key={h} style={{ textAlign: 'left', fontSize: 11, fontWeight: 800, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-3)', padding: '14px 20px', background: 'var(--bg-card2)' }}>{h}</th>
                   ))}
                 </tr>
@@ -106,7 +108,7 @@ export default function AdminPuppies() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
                         <p style={{ fontWeight: 800, color: 'var(--text)', fontSize: 16 }}>{puppy.name}</p>
                         {puppy.featured && (
-                          <span style={{ fontSize: 10, fontWeight: 800, background: 'var(--primary-bg)', color: 'var(--primary)', border: '1px solid var(--primary-border)', padding: '3px 10px', borderRadius: 6, letterSpacing: '0.1em' }}>★ NOUVEAU</span>
+                          <span style={{ fontSize: 10, fontWeight: 800, background: 'var(--primary-bg)', color: 'var(--primary)', border: '1px solid var(--primary-border)', padding: '3px 10px', borderRadius: 6, letterSpacing: '0.1em' }}>★ NEU</span>
                         )}
                       </div>
                     </td>
@@ -116,25 +118,25 @@ export default function AdminPuppies() {
                       <span style={{ fontSize: 11, fontWeight: 800, padding: '6px 12px', borderRadius: 12, letterSpacing: '0.04em',
                         background: puppy.status === 'available' ? 'rgba(34,197,94,0.12)' : puppy.status === 'reserved' ? 'rgba(250,204,21,0.12)' : 'rgba(239,68,68,0.1)',
                         color: puppy.status === 'available' ? '#22C55E' : puppy.status === 'reserved' ? '#EAB308' : '#EF4444',
-                        border: `1px solid ${puppy.status === 'available' ? 'rgba(34,197,94,0.28)' : puppy.status === 'reserved' ? 'rgba(250,204,21,0.28)' : 'rgba(239,68,68,0.25)'}` }}>{puppy.status}</span>
+                        border: `1px solid ${puppy.status === 'available' ? 'rgba(34,197,94,0.28)' : puppy.status === 'reserved' ? 'rgba(250,204,21,0.28)' : 'rgba(239,68,68,0.25)'}` }}>{PUPPY_STATUS_LABELS[puppy.status] || puppy.status}</span>
                     </td>
                     <td style={{ padding: '14px 20px' }}>
                       <span style={{ fontSize: 11, fontWeight: 800, padding: '6px 12px', borderRadius: 12, letterSpacing: '0.04em', background: puppy.isActive ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.1)', color: puppy.isActive ? '#22C55E' : '#EF4444', border: `1px solid ${puppy.isActive ? 'rgba(34,197,94,0.28)' : 'rgba(239,68,68,0.25)'}` }}>
-                        {puppy.isActive ? 'Actif' : 'Inactif'}
+                        {puppy.isActive ? 'Aktiv' : 'Inaktiv'}
                       </span>
                     </td>
                     <td style={{ padding: '14px 20px' }}>
                       <div style={{ display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap' }}>
                         <Link to={`/admin/puppies/${puppy.id}/edit`} className="admin-table-btn" style={{ fontSize: 13, color: 'var(--primary)', textDecoration: 'none', fontWeight: 800 }}>
-                          Modifier
+                          Bearbeiten
                         </Link>
                         <button type="button" onClick={() => handleToggle(puppy)}
                           className="admin-table-btn" style={{ fontSize: 13, color: puppy.isActive ? '#DC2626' : '#22C55E', background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Outfit',sans-serif", fontWeight: 700 }}>
-                          {puppy.isActive ? 'Désactiver' : 'Activer'}
+                          {puppy.isActive ? 'Deaktivieren' : 'Aktivieren'}
                         </button>
                         <button type="button" onClick={() => handleDelete(puppy)}
                           className="admin-table-btn-danger" style={{ fontSize: 13, color: '#991B1B', background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Outfit',sans-serif", fontWeight: 800 }}>
-                          Supprimer
+                          Löschen
                         </button>
                       </div>
                     </td>
