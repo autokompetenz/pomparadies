@@ -7,7 +7,7 @@ function d(day, month, year = 2026) {
 }
 
 async function main() {
-  console.log('🌱 Seeding Animal Concept...');
+  console.log('🌱 Seeding PomParadies...');
 
   const labrador = [
     { name:'Simba',   birthDate:d(4,6),  sex:'Male',   father:'Duke',  mother:'Maya',   pedigree:'LOSH-LAB-2026-0412', microchip:'985 1410 0245 101', desc:'Robuste et gourmand, déjà très attaché à sa mère et ses frères de portée.' },
@@ -140,17 +140,17 @@ async function main() {
   ];
 
   const seeds = [
-    ...labrador.map(p => ({ ...p, breed:'Labrador Retriever',   price:800,  color:'Sable',             vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
-    ...chihuahua.map(p => ({ ...p, breed:'Chihuahua',           price:900,  color:'Fauve',             vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
-    ...yorkshire.map(p => ({ ...p, breed:'Yorkshire Terrier',   price:1100, color:'Gris acier et feu',  vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
-    ...jackrussell.map(p => ({ ...p, breed:'Jack Russell Terrier', price:750, color:'Blanc et feu',     vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
-    ...teckel.map(p =>     ({ ...p, breed:'Teckel',                  price:900, color:'Noir et feu',      vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
-    ...braque.map(p =>     ({ ...p, breed:'Braque Allemand',         price:850, color:'Foie et blanc',    vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
-    ...berger.map(p =>     ({ ...p, breed:'Berger Allemand',       price:1180, color:'Noir et feu',     vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
-    ...bichon.map(p =>     ({ ...p, breed:'Bichon Maltais',        price:1000, color:'Blanc pur',       vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
-    ...golden.map(p =>     ({ ...p, breed:'Golden Retriever',      price:1150, color:'Blond doré',      vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true })),
-    ...canis.map(p =>      ({ ...p, breed:'Canis Vulgaris',        price:800,  color:'Doré tacheté',    vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true, noPedigree:true })),
-    ...newBreeds.flatMap(b => b.puppies.map(p => ({ ...p, breed:b.breed, price:b.price, color:b.color, vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Oupeye', isActive:true }))),
+    ...labrador.map(p => ({ ...p, breed:'Labrador Retriever',   price:800,  color:'Sable',             vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
+    ...chihuahua.map(p => ({ ...p, breed:'Chihuahua',           price:900,  color:'Fauve',             vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
+    ...yorkshire.map(p => ({ ...p, breed:'Yorkshire Terrier',   price:1100, color:'Gris acier et feu',  vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
+    ...jackrussell.map(p => ({ ...p, breed:'Jack Russell Terrier', price:750, color:'Blanc et feu',     vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
+    ...teckel.map(p =>     ({ ...p, breed:'Teckel',                  price:900, color:'Noir et feu',      vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
+    ...braque.map(p =>     ({ ...p, breed:'Braque Allemand',         price:850, color:'Foie et blanc',    vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
+    ...berger.map(p =>     ({ ...p, breed:'Berger Allemand',       price:1180, color:'Noir et feu',     vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
+    ...bichon.map(p =>     ({ ...p, breed:'Bichon Maltais',        price:1000, color:'Blanc pur',       vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
+    ...golden.map(p =>     ({ ...p, breed:'Golden Retriever',      price:1150, color:'Blond doré',      vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true })),
+    ...canis.map(p =>      ({ ...p, breed:'Canis Vulgaris',        price:800,  color:'Doré tacheté',    vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true, noPedigree:true })),
+    ...newBreeds.flatMap(b => b.puppies.map(p => ({ ...p, breed:b.breed, price:b.price, color:b.color, vaccinationStatus:'1ère injection', dewormingStatus:'À jour', location:'Bonn', isActive:true }))),
   ];
 
   // Supprime les anciens chiots avant de réinsérer
@@ -172,7 +172,7 @@ async function main() {
         description: puppy.desc,
         parentMotherName: puppy.mother,
         parentFatherName: puppy.father,
-        pedigreeDocUrl: puppy.noPedigree ? null : `https://animalconceptsrl.com/pedigree/${puppy.pedigree}`,
+        pedigreeDocUrl: puppy.noPedigree ? null : `https://pomparadiesgmbh.com/pedigree/${puppy.pedigree}`,
         location: puppy.location,
         isActive: puppy.isActive,
       },

@@ -8,7 +8,7 @@ const RESPONSES = {
     horaires: "Nos horaires :\n🕗 Lun–Ven : 09h00 – 18h00\n🕘 Samedi : 10h00 – 16h00\n❌ Dimanche : Fermé",
     prix:     "Nos chiots sont proposés à des prix justes, incluant pedigree, vaccins, puce et vermifuge.\n\n📧 Contactez-nous pour plus d'infos !",
     rdv:      "Pour prendre rendez-vous afin de rencontrer un chiot :\n\n📧 Nous contacter",
-    bonjour:  "Bonjour ! Bienvenue chez ANIMAL CONCEPT SRL 🐶\n\nComment puis-je vous aider ?\n• Horaires d'ouverture\n• Prendre rendez-vous\n• Tarifs\n• Garanties",
+    bonjour:  "Bonjour ! Bienvenue chez PomParadies GmbH 🐶\n\nComment puis-je vous aider ?\n• Horaires d'ouverture\n• Prendre rendez-vous\n• Tarifs\n• Garanties",
     garantie: "Tous nos chiots partent avec :\n✅ Pedigree LOSH\n✅ Vaccins à jour\n✅ Puce électronique\n✅ Vermifuge\n✅ Carnet de santé",
   },
   nl: {
@@ -16,7 +16,7 @@ const RESPONSES = {
     horaires: "Openingstijden:\n🕗 Ma–Vr: 09:00–18:00\n🕘 Za: 10:00–16:00\n❌ Zo: Gesloten",
     prix:     "Onze puppy's worden aangeboden tegen eerlijke prijzen, inclusief stamboom, vaccinaties, chip en ontworming.\n\n📧 Neem contact op voor meer info!",
     rdv:      "Om een afspraak te maken om een puppy te ontmoeten:\n\n📧 Neem contact op",
-    bonjour:  "Hallo! Welkom bij ANIMAL CONCEPT SRL 🐶\n\nHoe kan ik u helpen?\n• Openingstijden\n• Afspraak maken\n• Prijzen\n• Garanties",
+    bonjour:  "Hallo! Welkom bij PomParadies GmbH 🐶\n\nHoe kan ik u helpen?\n• Openingstijden\n• Afspraak maken\n• Prijzen\n• Garanties",
     garantie: "Al onze puppy's worden geleverd met:\n✅ Stamboom LOSH\n✅ Vaccinaties up-to-date\n✅ Microchip\n✅ Ontworming\n✅ Gezondheidsboekje",
   },
   en: {
@@ -24,7 +24,7 @@ const RESPONSES = {
     horaires: "Opening hours:\n🕗 Mon–Fri: 09:00–18:00\n🕘 Sat: 10:00–16:00\n❌ Sun: Closed",
     prix:     "Our puppies are offered at fair prices, including pedigree, vaccines, microchip and deworming.\n\n📧 Contact us for more info!",
     rdv:      "To book an appointment to meet a puppy:\n\n📧 Contact us",
-    bonjour:  "Hello! Welcome to ANIMAL CONCEPT SRL 🐶\n\nHow can I help you?\n• Opening hours\n• Book appointment\n• Pricing\n• Guarantees",
+    bonjour:  "Hello! Welcome to PomParadies GmbH 🐶\n\nHow can I help you?\n• Opening hours\n• Book appointment\n• Pricing\n• Guarantees",
     garantie: "All our puppies come with:\n✅ LOSH Pedigree\n✅ Up-to-date vaccines\n✅ Microchip\n✅ Deworming\n✅ Health record",
   },
 };
@@ -122,7 +122,7 @@ export default function Chatbot() {
           <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}>🐶</div>
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: 15, color: '#fff', letterSpacing: '0.02em' }}>
-              ANIMAL CONCEPT SRL
+              PomParadies GmbH
             </div>
             <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)', display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
               <span style={{ width: 7, height: 7, background: '#4ade80', borderRadius: '50%', display: 'inline-block' }} />

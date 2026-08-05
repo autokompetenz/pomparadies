@@ -103,10 +103,10 @@ export default function Navbar() {
             color: scrolled ? (isDark ? '#fff' : '#111') : isHero ? '#fff' : (isDark ? '#fff' : '#111'),
             letterSpacing: '0.05em', transition: 'color 0.3s',
           }}>
-            ANIMAL CONCEPT SRL
+            POMPARADIES GMBH
           </div>
           <div style={{ fontSize: 9, letterSpacing: '0.4em', color: 'var(--primary)', textTransform: 'uppercase', marginTop: 2 }}>
-            ANIMAL CONCEPT
+            BONN · DEUTSCHLAND
           </div>
         </Link>
 

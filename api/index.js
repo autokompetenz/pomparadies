@@ -73,8 +73,8 @@ async function uploadFiles(files, folder = 'puppies') {
 
 const corsOptions = {
   origin: [
-    'https://animalconceptsrl.com',
-    'https://animalconceptsrl.vercel.app',
+    'https://pomparadiesgmbh.com',
+    'https://pomparadiesgmbh.vercel.app',
     'http://localhost:5173',
     'http://localhost:3000',
   ],
@@ -125,7 +125,7 @@ function authenticateAdmin(req, res, next) {
 app.get('/api', (req, res) => {
   res.json({
     status: 'ok',
-    service: 'ANIMAL CONCEPT SRL API',
+    service: 'PomParadies GmbH API',
     version: '1.0.0',
     time: new Date().toISOString()
   });
@@ -610,7 +610,7 @@ app.post('/api/admin/reservations/:id/reply', authenticateAdmin, async (req, res
     await sendReplyToCustomer({
       email: reservation.guestEmail,
       name: reservation.guestName,
-      subject: subject || `ANIMAL CONCEPT SRL — Suivi réservation ${reservation.reservationNumber}`,
+      subject: subject || `PomParadies GmbH — Suivi réservation ${reservation.reservationNumber}`,
       message: message.trim(),
     });
 

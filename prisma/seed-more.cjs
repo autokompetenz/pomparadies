@@ -25,8 +25,8 @@ async function main() {
           description: p.desc,
           parentMotherName: p.mother,
           parentFatherName: p.father,
-          pedigreeDocUrl: `https://animalconceptsrl.com/pedigree/${p.pedigree}`,
-          location: 'Oupeye',
+          pedigreeDocUrl: `https://pomparadiesgmbh.com/pedigree/${p.pedigree}`,
+          location: 'Bonn',
           isActive: true,
         },
       });

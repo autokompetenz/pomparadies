@@ -53,7 +53,7 @@ export default function Footer() {
         <div>
           <Link to="/" style={{ textDecoration: 'none' }}>
             <div style={{ fontFamily: F, fontSize: 18, fontWeight: 900, color: isDark ? '#fff' : '#111', letterSpacing: '0.05em' }}>
-              ANIMAL CONCEPT SRL
+              POMPARADIES GMBH
             </div>
 
           </Link>
@@ -107,7 +107,7 @@ export default function Footer() {
         color: text2,
       }}>
         <span>
-          &copy; {new Date().getFullYear()} ANIMAL CONCEPT SRL — {t('copyright', lang)}
+          &copy; {new Date().getFullYear()} POMPARADIES GMBH — {t('copyright', lang)}
         </span>
         <span>{t('made_in', lang)}</span>
       </div>

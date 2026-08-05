@@ -1,73 +1,54 @@
-=========================================
-ANIMAL CONCEPT SRL
-=========================================
+PomParadies GmbH
 
-Statut : Active
+Informations générales
 
-Dénomination sociale :
-ANIMAL CONCEPT SRL
+* Nom de l’entreprise : PomParadies GmbH
+* Statut juridique : GmbH (Gesellschaft mit beschränkter Haftung)
+* Statut : Active
+* Date de création : 17 mars 2021
+* Capital social : 25 000 € 
 
-Numéro d'entreprise (BCE) :
-0871.492.738
+Activité
 
-Numéro de TVA :
-BE0871492738
+À sa création, l’entreprise avait pour objet :
 
-EUID :
-BEKBOBCE.0871.492.738
+* Élevage de chiens (Hundezucht)
+* Commerce de chiens (Hundehandel)
+* Commerce d’articles pour animaux (Handel mit Tierbedarf)
 
-Forme juridique :
-Société à responsabilité limitée (SRL)
+Depuis son transfert de siège à Bonn en juillet 2025, l’objet social déclaré est désormais :
 
-Date de création :
-17/01/2005
+* Commerce d’articles pour animaux (Handel mit Tierbedarf). 
 
-Adresse du siège social :
-Rue Fût Voie 216
-4683 Oupeye
-Province de Liège
-Belgique
+Adresses successives
 
-Activité principale :
-Élevage d'autres animaux
+1. 2021
+    * Blütenstraße 7
+    * 63762 Großostheim
+    * Allemagne
+2. 2022 – 2025
+    * Cardellweg 14
+    * 63452 Hanau
+    * Allemagne
+3. Depuis juillet 2025
+    * Sebastianstraße 4
+    * 53115 Bonn
+    * Allemagne 
 
-Code NACEBEL :
-01.480
+Registre du commerce
 
-Situation juridique :
-Situation normale
+* Registre actuel : Amtsgericht Bonn
+* Numéro : HRB 29907
 
-Assujettie à la TVA :
-Oui
+Anciens numéros
 
-Taille de l'entreprise :
-Micro-entreprise
+* HRB 16113 — Amtsgericht Aschaffenburg
+* HRB 98963 — Amtsgericht Hanau 
 
-Effectif :
-1 employé (équivalent temps plein)
+Dirigeante
 
-Dernier exercice comptable :
-2024
+* Suzan Tolchikava (gérante actuelle)
 
-Informations financières (2024) :
-- Résultat net : 8 304 €
-- Capitaux propres : 127 058 €
-- Marge brute : 37 493 €
+Ancienne identité enregistrée :
 
-Publications principales :
-- Constitution : 04/02/2005
-- Changement de siège : 16/09/2010
-- Modifications de direction : 05/07/2011
-- Modification de la forme juridique : 23/11/2023
-
-Adresse :
-Rue Fût Voie 216
-4683 Oupeye
-Belgique
-
-
-Sources :
-- CompanyWeb
-- Banque Nationale de Belgique (NBB)
-- Banque-Carrefour des Entreprises (BCE)
-- Moniteur belge
+* Suzan Hadjiany-Dastjerdy (avant changement de nom)

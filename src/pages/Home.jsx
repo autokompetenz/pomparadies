@@ -20,7 +20,7 @@ const SERVICES = [
   { icon:'💶', fr:'Garantie santé', nl:'Gezondheidsgarantie', en:'Health guarantee',
     descFr:'Tous nos chiots partent avec un certificat de bonne santé vétérinaire.', descNl:'Al onze puppy’s krijgen een veterinair gezondheidscertificaat.', descEn:'All our puppies come with a veterinary health certificate.' },
   { icon:'📦', fr:'Livraison possible', nl:'Bezorging mogelijk', en:'Delivery possible',
-    descFr:'Livraison sécurisée en Belgique et pays limitrophes.', descNl:'Veilige levering in België en buurlanden.', descEn:'Secure delivery in Belgium and neighboring countries.' },
+    descFr:'Livraison sécurisée en Allemagne et pays limitrophes.', descNl:'Veilige levering in Duitsland en buurlanden.', descEn:'Secure delivery in Germany and neighboring countries.' },
 ];
 
 function CookieBanner({ lang }) {
