@@ -60,7 +60,15 @@ function isTechnical(seg) {
   return false;
 }
 
-const TRANSLATIONS = {};
+const TRANSLATIONS = {
+  "Code d'accès manquant": 'Zugangscode fehlt',
+  'Accès non autorisé': 'Zugriff nicht autorisiert',
+  'Code invalide ou expiré': 'Ungültiger oder abgelaufener Code',
+  'Confirmation email sent to': 'Bestätigungs-E-Mail gesendet an',
+  'Confirmation email error:': 'Fehler bei der Bestätigungs-E-Mail:',
+  'Message requis': 'Nachricht erforderlich',
+  "Code d'acces manquant": 'Zugangscode fehlt',
+};
 
 function walk(dir, out) {
   let entries;
