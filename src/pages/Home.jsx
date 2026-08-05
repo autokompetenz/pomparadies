@@ -86,7 +86,7 @@ export default function Home() {
 
           <motion.h1 initial={{ opacity:0, y:40 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.9, delay:0.2 }}
             style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize: isMobile ? 'clamp(38px,10vw,56px)' : 'clamp(52px,6vw,88px)', color:'#fff', letterSpacing:'-0.03em', lineHeight:1.0, marginBottom:22 }}>
-            ANIMAL<br/><span style={{ color:'#C9762E' }}>CONCEPT SRL</span>
+            POMPARADIES<br/><span style={{ color:'#C9762E' }}>GMBH</span>
           </motion.h1>
 
           <motion.p initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.8, delay:0.35 }}
