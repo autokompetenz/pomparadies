@@ -26,28 +26,30 @@ export default function PuppyCard({ puppy, index = 0 }) {
           display: 'block', position: 'relative', overflow: 'hidden',
           textDecoration: 'none', color: 'inherit', touchAction: 'manipulation',
         }}>
-        <img src={puppy.imageUrl || 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600&q=70'}
-          alt={puppy.name}
-          className="puppy-img-zoom"
-          style={{ width: '100%', height: 280, objectFit: 'cover', display: 'block' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(0,0,0,0.55) 0%,transparent 55%)' }} />
+        <div style={{ position: 'relative' }}>
+          <img src={puppy.imageUrl || 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600&q=70'}
+            alt={puppy.name}
+            className="puppy-img-zoom"
+            style={{ width: '100%', height: 280, objectFit: 'cover', display: 'block' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(0,0,0,0.55) 0%,transparent 55%)' }} />
 
-        <div style={{ position: 'absolute', top: 12, left: 12, display: 'flex', gap: 7 }}>
-          {puppy.featured && (
-            <span style={{ background: '#C9762E', color: '#fff', fontSize: 9, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 3 }}>★ Nouveau</span>
-          )}
-        </div>
+          <div style={{ position: 'absolute', top: 12, left: 12, display: 'flex', gap: 7 }}>
+            {puppy.featured && (
+              <span style={{ background: '#C9762E', color: '#fff', fontSize: 9, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 3 }}>★ Nouveau</span>
+            )}
+          </div>
 
-        <div style={{ position: 'absolute', bottom: 12, left: 12, right: 12, display: 'flex', gap: 8 }}>
-          <span style={{
-            flex: 1, textAlign: 'center', background: 'rgba(255,255,255,0.14)',
-            backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.2)',
-            color: '#fff', padding: '10px 0', borderRadius: 6, fontSize: 11,
-            fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
-            textDecoration: 'none',
-          }}>
-            {t('view_puppy', l)} →
-          </span>
+          <div style={{ position: 'absolute', bottom: 12, left: 12, right: 12, display: 'flex', gap: 8 }}>
+            <span style={{
+              flex: 1, textAlign: 'center', background: 'rgba(255,255,255,0.14)',
+              backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.2)',
+              color: '#fff', padding: '10px 0', borderRadius: 6, fontSize: 11,
+              fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
+              textDecoration: 'none',
+            }}>
+              {t('view_puppy', l)} →
+            </span>
+          </div>
         </div>
 
         <div style={{ padding: '18px 20px 20px' }}>
