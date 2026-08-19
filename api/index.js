@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
-const { createClient } = require('@supabase/supabase-js');
+const { v2: cloudinary } = require('cloudinary');
 const rateLimit = require('express-rate-limit');
 const { prisma } = require('../lib/prisma.js');
 const { sendReservationConfirmation, sendAdminNotification, sendStatusNotification, sendReplyToCustomer } = require('../lib/mailer.js');
@@ -10,22 +10,15 @@ const { generateReservationNumber, generateUniquePuppyIds } = require('../lib/he
 
 const app = express();
 
-if (!process.env.SUPABASE_URL) throw new Error('SUPABASE_URL fehlt');
-if (!process.env.SUPABASE_SERVICE_ROLE_KEY) throw new Error('SUPABASE_SERVICE_ROLE_KEY fehlt');
 if (!process.env.ADMIN_ACCESS_CODE) console.warn('⚠ ADMIN_ACCESS_CODE nicht festgelegt');
 if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET fehlt');
+if (!process.env.CLOUDINARY_CLOUD_NAME) throw new Error('CLOUDINARY_CLOUD_NAME fehlt');
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
-
-// Ensure storage bucket exists
-(async () => {
-  const { data: buckets } = await supabase.storage.listBuckets();
-  if (!buckets?.find(b => b.name === 'puppies')) {
-    const { error } = await supabase.storage.createBucket('puppies', { public: true });
-    if (error) console.error('⚠ Fehler beim Erstellen des Buckets puppies:', error.message);
-    else console.log('✅ Bucket puppies erstellt');
-  }
-})();
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -39,29 +32,27 @@ const upload = multer({
   }
 });
 
-async function uploadFiles(files, folder = 'puppies') {
+async function uploadFiles(files) {
   const sorted = [...files].sort((a, b) =>
     a.originalname.localeCompare(b.originalname, undefined, { numeric: true })
   );
   const results = await Promise.all(
     sorted.map(async (file, index) => {
-      const safeName = file.originalname.replace(/[^a-zA-Z0-9._-]/g, '_');
-      const fileName = `${Date.now()}-${index}-${safeName}`;
-      const url = `${process.env.SUPABASE_URL}/storage/v1/object/${folder}/${fileName}`;
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
-          'Content-Type': file.mimetype,
-        },
-        body: file.buffer,
+      const result = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            folder: 'puppies',
+            resource_type: 'image',
+            transformation: [{ width: 1200, crop: 'limit', quality: 'auto:best', fetch_format: 'auto' }],
+          },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }
+        );
+        stream.end(file.buffer);
       });
-      if (!response.ok) {
-        const text = await response.text();
-        throw new Error(`Upload ${response.status}: ${text}`);
-      }
-      const publicUrl = `${process.env.SUPABASE_URL}/storage/v1/object/public/${folder}/${fileName}`;
-      return { index, url: publicUrl };
+      return { index, url: result.secure_url };
     })
   );
   const urls = {};
